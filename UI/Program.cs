@@ -1,5 +1,7 @@
 using System;
 using System.Windows.Forms;
+using DigitalNotesManager.Application.Interfaces;
+using DigitalNotesManager.Application.Services;
 using Infrastructure.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -32,16 +34,17 @@ namespace UI
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
 
+            // Register Services
+            services.AddScoped<INoteService, NoteService>();  // Your Note Service
+            services.AddScoped<IUserService, UserService>();  // Your User Service
+
             // Build service provider
             using (var serviceProvider = services.BuildServiceProvider())
             {
                 var dbContext = serviceProvider.GetRequiredService<ApplicationDbContext>();
 
-                // Run Migrations (Optional: Ensure Database Created)
-                //dbContext.Database.Migrate();
-
                 // Run the application
-                System.Windows.Forms.Application.Run(new Form1());  // Replace `Form1` with your actual startup form
+                System.Windows.Forms.Application.Run(new Form1()); 
             }
 
         }
