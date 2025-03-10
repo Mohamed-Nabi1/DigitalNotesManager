@@ -13,7 +13,7 @@ namespace UIPresentation
 {
     public partial class Form2 : Form
     {
-        private readonly IUserService   _userService;
+        private readonly IUserService _userService;
         public Form2(IUserService userService)
         {
             _userService = userService;
@@ -32,6 +32,11 @@ namespace UIPresentation
                 //this.Hide();
                 //taskManagment.ShowDialog();
             }
+        }
+
+        private void Form2_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

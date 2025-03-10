@@ -43,9 +43,10 @@
             RegiserBtn.BackColor = Color.SeaGreen;
             RegiserBtn.Font = new Font("Segoe UI", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             RegiserBtn.ForeColor = Color.White;
-            RegiserBtn.Location = new Point(37, 295);
+            RegiserBtn.Location = new Point(42, 393);
+            RegiserBtn.Margin = new Padding(3, 4, 3, 4);
             RegiserBtn.Name = "RegiserBtn";
-            RegiserBtn.Size = new Size(232, 37);
+            RegiserBtn.Size = new Size(265, 49);
             RegiserBtn.TabIndex = 29;
             RegiserBtn.Text = "Register";
             RegiserBtn.UseVisualStyleBackColor = false;
@@ -53,9 +54,10 @@
             // 
             // passwordTxtBox
             // 
-            passwordTxtBox.Location = new Point(119, 238);
+            passwordTxtBox.Location = new Point(136, 317);
+            passwordTxtBox.Margin = new Padding(3, 4, 3, 4);
             passwordTxtBox.Name = "passwordTxtBox";
-            passwordTxtBox.Size = new Size(176, 23);
+            passwordTxtBox.Size = new Size(201, 27);
             passwordTxtBox.TabIndex = 28;
             // 
             // label3
@@ -63,17 +65,18 @@
             label3.AutoSize = true;
             label3.Font = new Font("Segoe Print", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label3.ForeColor = Color.SeaGreen;
-            label3.Location = new Point(7, 238);
+            label3.Location = new Point(8, 317);
             label3.Name = "label3";
-            label3.Size = new Size(93, 28);
+            label3.Size = new Size(115, 35);
             label3.TabIndex = 27;
             label3.Text = "Password:";
             // 
             // UserNameTxtBox
             // 
-            UserNameTxtBox.Location = new Point(119, 147);
+            UserNameTxtBox.Location = new Point(136, 196);
+            UserNameTxtBox.Margin = new Padding(3, 4, 3, 4);
             UserNameTxtBox.Name = "UserNameTxtBox";
-            UserNameTxtBox.Size = new Size(176, 23);
+            UserNameTxtBox.Size = new Size(201, 27);
             UserNameTxtBox.TabIndex = 26;
             // 
             // label2
@@ -81,9 +84,9 @@
             label2.AutoSize = true;
             label2.Font = new Font("Segoe Print", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label2.ForeColor = Color.SeaGreen;
-            label2.Location = new Point(7, 142);
+            label2.Location = new Point(8, 189);
             label2.Name = "label2";
-            label2.Size = new Size(110, 28);
+            label2.Size = new Size(139, 35);
             label2.TabIndex = 25;
             label2.Text = "UserBName:";
             // 
@@ -92,17 +95,18 @@
             label1.AutoSize = true;
             label1.Font = new Font("Segoe Print", 24F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label1.ForeColor = Color.SeaGreen;
-            label1.Location = new Point(85, 31);
+            label1.Location = new Point(97, 41);
             label1.Name = "label1";
-            label1.Size = new Size(153, 56);
+            label1.Size = new Size(192, 70);
             label1.TabIndex = 24;
             label1.Text = "Register";
             // 
             // emailTxtBox
             // 
-            emailTxtBox.Location = new Point(119, 196);
+            emailTxtBox.Location = new Point(136, 261);
+            emailTxtBox.Margin = new Padding(3, 4, 3, 4);
             emailTxtBox.Name = "emailTxtBox";
-            emailTxtBox.Size = new Size(176, 23);
+            emailTxtBox.Size = new Size(201, 27);
             emailTxtBox.TabIndex = 31;
             // 
             // label4
@@ -110,17 +114,17 @@
             label4.AutoSize = true;
             label4.Font = new Font("Segoe Print", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label4.ForeColor = Color.SeaGreen;
-            label4.Location = new Point(7, 191);
+            label4.Location = new Point(8, 255);
             label4.Name = "label4";
-            label4.Size = new Size(63, 28);
+            label4.Size = new Size(80, 35);
             label4.TabIndex = 30;
             label4.Text = "Email:";
             // 
             // Form2
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(302, 450);
+            ClientSize = new Size(345, 600);
             Controls.Add(emailTxtBox);
             Controls.Add(label4);
             Controls.Add(RegiserBtn);
@@ -129,8 +133,10 @@
             Controls.Add(UserNameTxtBox);
             Controls.Add(label2);
             Controls.Add(label1);
+            Margin = new Padding(3, 4, 3, 4);
             Name = "Form2";
             Text = "Form2";
+            Load += Form2_Load;
             ResumeLayout(false);
             PerformLayout();
         }
