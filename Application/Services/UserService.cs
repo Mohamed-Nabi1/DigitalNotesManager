@@ -22,6 +22,8 @@ namespace DigitalNotesManager.Application.Services
                 {
                     Id = u.Id,
                     Username = u.Username,
+                    Email = u.Email,
+                    Password = u.Password,
                 })
                 .ToListAsync();
         }
@@ -43,6 +45,8 @@ namespace DigitalNotesManager.Application.Services
             var user = new User
             {
                 Username = userDto.Username,
+                Email = userDto.Email,
+                Password = userDto.Password,
             };
 
             _context.Users.Add(user);

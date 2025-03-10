@@ -30,6 +30,7 @@ namespace UI
 
             // Setup Dependency Injection
             var services = new ServiceCollection();
+
             services.AddSingleton<IConfiguration>(configuration); // Register IConfiguration
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
@@ -42,9 +43,10 @@ namespace UI
             using (var serviceProvider = services.BuildServiceProvider())
             {
                 var dbContext = serviceProvider.GetRequiredService<ApplicationDbContext>();
+                var userService = serviceProvider.GetRequiredService<IUserService>(); 
 
                 // Run the application
-                System.Windows.Forms.Application.Run(new Form1()); 
+                System.Windows.Forms.Application.Run(new Form1(userService)); 
             }
 
         }
