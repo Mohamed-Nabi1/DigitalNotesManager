@@ -1,4 +1,5 @@
 ﻿using DigitalNotesManager.Application.DTOs;
+using Domain.Entities;
 
 namespace DigitalNotesManager.Application.Interfaces
 {
@@ -9,5 +10,6 @@ namespace DigitalNotesManager.Application.Interfaces
         Task AddNoteAsync(NoteDTO noteDto);
         Task UpdateNoteAsync(NoteDTO noteDto);
         Task DeleteNoteAsync(int id);
+        Task AddNoteAsync(Note newNote);
     }
 }
