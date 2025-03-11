@@ -14,20 +14,37 @@ namespace DigitalNotesManager.Application.Services
         {
             _context = context;
         }
+        public async Task AddNoteAsync(Note note)
+{
+    _context.Notes.Add(note);
+    await _context.SaveChangesAsync();
+}
 
-        public async Task<IEnumerable<NoteDTO>> GetAllNotesAsync()
+       
+       public async Task<IEnumerable<NoteDTO>> GetAllNotesAsync(int? userId = null)
         {
-            return await _context.Notes
-                .Select(n => new NoteDTO
-                {
-                    Id = n.Id,
-                    Title = n.Title,
-                    Content = n.Content,
-                    CreatedAt = n.CreatedDate,
-                    UserId = n.UserId
-                })
-                .ToListAsync();
+            var query = _context.Notes
+                .AsNoTracking();
+            if (userId.HasValue)
+            {
+                query = query.Where(n => n.UserId == userId.Value);
+            }
+
+       return await _context.Notes
+        .AsNoTracking() 
+        .Select(n => new NoteDTO
+        {
+            Id = n.Id,
+            Title = n.Title,
+            Content = n.Content,
+            ReminderDate = n.ReminderDate,
+            CreatedDate = n.CreatedDate,
+            UserId = n.UserId,
+            CategoryId = n.CategoryId 
+        })
+        .ToListAsync();
         }
+        
 
         public async Task<NoteDTO?> GetNoteByIdAsync(int id)
         {
@@ -39,8 +56,10 @@ namespace DigitalNotesManager.Application.Services
                 Id = note.Id,
                 Title = note.Title,
                 Content = note.Content,
-                CreatedAt = note.CreatedDate,
-                UserId = note.UserId
+                ReminderDate = note.ReminderDate,
+                UserId = note.UserId,
+                CategoryId = note.CategoryId,
+                CreatedDate= note.CreatedDate,
             };
         }
 
@@ -50,7 +69,9 @@ namespace DigitalNotesManager.Application.Services
             {
                 Title = noteDto.Title,
                 Content = noteDto.Content,
-                CreatedDate = DateTime.UtcNow,
+                ReminderDate = noteDto.ReminderDate,
+                CategoryId=noteDto.CategoryId,
+                CreatedDate= noteDto.CreatedDate,
                 UserId = noteDto.UserId
             };
 
@@ -65,7 +86,9 @@ namespace DigitalNotesManager.Application.Services
 
             note.Title = noteDto.Title;
             note.Content = noteDto.Content;
-
+            note.ReminderDate = noteDto.ReminderDate;
+            note.CreatedDate = noteDto.CreatedDate;
+            note.CategoryId = noteDto.CategoryId;
             await _context.SaveChangesAsync();
         }
 

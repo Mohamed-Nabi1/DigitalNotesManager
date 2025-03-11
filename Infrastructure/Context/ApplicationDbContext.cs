@@ -6,14 +6,12 @@ namespace Infrastructure.Context
 {
     public class ApplicationDbContext : DbContext
     {
-        private readonly IConfiguration _configuration;
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
 
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options, IConfiguration configuration)
-            : base(options)
+        public ApplicationDbContext()
         {
-            _configuration = configuration;
         }
-
+        public DbSet<Category> Categories { get; set; }
         public DbSet<Note> Notes { get; set; }
         public DbSet<User> Users { get; set; }
 
@@ -30,9 +28,13 @@ namespace Infrastructure.Context
         {
             if (!optionsBuilder.IsConfigured)
             {
-                string connectionString = _configuration.GetConnectionString("DefaultConnection");
-                optionsBuilder.UseSqlServer(connectionString);
+                var config = new ConfigurationBuilder()
+                    .SetBasePath(Directory.GetCurrentDirectory())
+                    .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                    .Build();
+                optionsBuilder.UseSqlServer(config.GetConnectionString("DefaultConnection"));
             }
         }
     }
+
 }
