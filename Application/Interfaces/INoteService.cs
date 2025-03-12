@@ -5,7 +5,7 @@ namespace DigitalNotesManager.Application.Interfaces
 {
     public interface INoteService
     {
-        Task<IEnumerable<NoteDTO>> GetAllNotesAsync(int? userId = null);
+        Task<IEnumerable<NoteDTO>> GetAllNotesAsync(int userId);
         Task<NoteDTO?> GetNoteByIdAsync(int id);
         Task AddNoteAsync(NoteDTO noteDto);
         Task UpdateNoteAsync(NoteDTO noteDto);

@@ -23,11 +23,14 @@ namespace UI.Forms
         private CategorySelector categorySelector;
         private TextBox itemInput;
         private Button addItemButton;
+        int idUser;
+
 
         #region Constructor for adding a new note
-            public NoteForm(MainForm mainForm, FlowLayoutPanel parent, DataGridView gridView, INoteService noteService, ICategoryService categoryService)
+        public NoteForm(int id, MainForm mainForm, FlowLayoutPanel parent, DataGridView gridView, INoteService noteService, ICategoryService categoryService)
             {
                 InitializeComponent();
+                this.idUser = id;
                 _mainForm = mainForm;
                 parentPanel = parent;
                 this.gridView = gridView;
@@ -35,7 +38,7 @@ namespace UI.Forms
                 _categoryService = categoryService;
                 var categorySelector = new CategorySelector(categoryService) { Dock = DockStyle.None };
                 categorySelector.CategoryChanged += CategorySelector_CategoryChanged;
-            
+                
                 Controls.Add(categorySelector);
                 checkedListBox1 = new CheckedListBox
                 {
@@ -46,8 +49,10 @@ namespace UI.Forms
                 };
 
                 Controls.Add(checkedListBox1);
-            }
+                
+        }
         #endregion
+
 
         #region Constructor for editing an existing note
             public NoteForm(NoteDTO note, FlowLayoutPanel parent, DataGridView gridView, INoteService noteService, ICategoryService categoryService)
@@ -76,6 +81,7 @@ namespace UI.Forms
             }
 
         #endregion
+
 
         #region Event When Change Category
         private void CategorySelector_CategoryChanged(object sender, string newCategory)
@@ -210,7 +216,7 @@ namespace UI.Forms
                 Controls.Add(addItemButton);
             }
 
-            private string GetChecklistContent()
+        private string GetChecklistContent()
             {
                 if (checkedListBox1 != null && checkedListBox1.Visible)
                 {
@@ -352,8 +358,9 @@ namespace UI.Forms
         #region Add or Update Note
         private async void btnAdd_Click(object sender, EventArgs e)
         {
-            isSaving = true; 
+            isSaving = true;
 
+            int userId = idUser;
             string title = TitleTxt.Text.Trim();
             string contentToSave = "";
 
@@ -395,7 +402,7 @@ namespace UI.Forms
                         Content = contentToSave,
                         ReminderDate = reminderDate,
                         CreatedDate = DateTime.Now,
-                        UserId = 2,
+                        UserId = userId,
                         CategoryId = categoryId
                     };
 
@@ -409,7 +416,7 @@ namespace UI.Forms
                         Content = contentToSave,
                         ReminderDate = reminderDate,
                         CreatedDate = DateTime.Now,
-                        UserId = 2,
+                        UserId = userId,
                         CategoryId = categoryId,
                         
                     };

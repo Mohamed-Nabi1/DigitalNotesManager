@@ -18,15 +18,17 @@ namespace UI.Forms
     {
         INoteService _noteService;
         ICategoryService _categoryService;
-
+        int idUser;
 
         #region Constructor
-        public MainForm(INoteService noteService, ICategoryService categoryService)
+        public MainForm(int id,INoteService noteService, ICategoryService categoryService)
         {
-            InitializeComponent();
+            InitializeComponent(); 
+            this.idUser = id;
             _noteService = noteService;
             this.IsMdiContainer = true;
             _categoryService = categoryService;
+           
             LoadContent();
 
         }
@@ -35,6 +37,7 @@ namespace UI.Forms
         #region  Load Data into GridView And CardNote
         private async Task LoadContent()
         {
+            
             await LoadNotesInPanel();
             await LoadNotesInGrid(gridView);
 
@@ -42,7 +45,22 @@ namespace UI.Forms
         }
         public async Task LoadNotesInGrid(DataGridView gridView)
         {
-            var notes = await _noteService.GetAllNotesAsync();
+            
+
+            if (gridView == null)
+            {
+                MessageBox.Show("GridView is Not Found");
+                return;
+            }
+
+            var notes = await _noteService.GetAllNotesAsync(idUser);
+
+            if (notes == null || !notes.Any()) 
+            {
+                gridView.DataSource = null;  
+                return;
+            }
+
             gridView.DataSource = notes.Select(n => new
             {
                 n.Id,
@@ -53,17 +71,24 @@ namespace UI.Forms
                 n.Content,
                 n.UserId
             }).ToList();
-
         }
+
 
         public async Task LoadNotesInPanel()
         {
             ParentPanel.Controls.Clear();
-            var notes = await _noteService.GetAllNotesAsync();
+
+            var notes = await _noteService.GetAllNotesAsync(idUser);
+
+            if (notes == null || !notes.Any())
+            {
+                MessageBox.Show("No Notes Found ");
+                return;
+            }
 
             foreach (var note in notes)
             {
-                NoteCard noteCard = new NoteCard(note, gridView, _noteService, _categoryService);
+                NoteCard noteCard = new NoteCard(idUser,note, gridView, _noteService, _categoryService);
                 ParentPanel.Controls.Add(noteCard);
             }
 
@@ -75,7 +100,7 @@ namespace UI.Forms
         #region File(New|Open|Save|Exit) Tools IN Menue
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            NoteForm noteForm = new NoteForm(this, ParentPanel, gridView, _noteService, _categoryService);
+            NoteForm noteForm = new NoteForm(idUser,this, ParentPanel, gridView, _noteService, _categoryService);
             noteForm.MdiParent = this;
             noteForm.Show();
         }
@@ -91,7 +116,7 @@ namespace UI.Forms
             if (openFile.ShowDialog() == DialogResult.OK)
             {
                 string contentInFile = File.ReadAllText(openFile.FileName);
-                NoteForm notepadForm = new NoteForm(this, ParentPanel, gridView, _noteService, _categoryService);
+                NoteForm notepadForm = new NoteForm(idUser, this, ParentPanel, gridView, _noteService, _categoryService);
                 notepadForm.MdiParent = this;
                 notepadForm.DisplayFileContent(contentInFile);
                 notepadForm.Show();
@@ -258,11 +283,11 @@ namespace UI.Forms
 
 
         #region To Show Alarm Form
-        private HashSet<int> shownNoteIds = new HashSet<int>();
 
+        private HashSet<int> shownNoteIds = new HashSet<int>();
         private async void alarmBtn_Click(object sender, EventArgs e)
         {
-            var notes = await _noteService.GetAllNotesAsync();
+            var notes = await _noteService.GetAllNotesAsync(idUser);
             var reminderNotes = notes.Where(n => n.ReminderDate <= DateTime.Now && !shownNoteIds.Contains(n.Id)).ToList();
 
             if (reminderNotes.Any())
@@ -292,7 +317,7 @@ namespace UI.Forms
 
         private async Task SearchAndFilterNotes()
         {
-            var notes = await _noteService.GetAllNotesAsync();
+            var notes = await _noteService.GetAllNotesAsync(idUser);
 
             string searchText = searchBox.Text.Trim().ToLower();
 
@@ -311,7 +336,7 @@ namespace UI.Forms
                 n.Title,
                 n.ReminderDate,
                 n.CreatedDate,
-                n.CategoryId,
+                n.CategoryId,n.Content,
                 n.UserId
             }).ToList();
         }
@@ -329,7 +354,7 @@ namespace UI.Forms
                 private async void SortNotes(string sortBy)
                 {
 
-                    var allNotes = await _noteService.GetAllNotesAsync();
+                    var allNotes = await _noteService.GetAllNotesAsync(idUser);
                     if (allNotes == null || !allNotes.Any())
                     {
                         MessageBox.Show("No Notes to Sort");

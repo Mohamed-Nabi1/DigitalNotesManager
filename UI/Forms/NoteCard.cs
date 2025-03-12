@@ -17,16 +17,15 @@ namespace UI
         private readonly DataGridView gridView;
         private readonly INoteService _noteService;
         private readonly ICategoryService _categoryService;
+        int idUser;
 
         #region Constructor
-            public NoteCard(NoteDTO note, DataGridView gridView, INoteService noteService, ICategoryService categoryService)
+        public NoteCard(int id, NoteDTO note, DataGridView gridView, INoteService noteService, ICategoryService categoryService)
             {
-                this.noteId = note.Id;
+                InitializeComponent();
+                 this.noteId = note.Id;
                 this.gridView = gridView;
                 this._noteService = noteService;
-
-                InitializeComponent();
-
                 this.BackColor = Color.Bisque;
                 this.Padding = new Padding(10);
                 this.Margin = new Padding(10);
@@ -101,7 +100,7 @@ namespace UI
 
         private async Task RefreshGridView()
         {
-            var notes = await _noteService.GetAllNotesAsync();
+            var notes = await _noteService.GetAllNotesAsync(idUser);
             gridView.DataSource = notes.Select(n => new { n.Id, n.Title, n.ReminderDate, n.CategoryId,n.CreatedDate,n.UserId }).ToList();
         }
 

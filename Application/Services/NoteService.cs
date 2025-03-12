@@ -21,17 +21,11 @@ namespace DigitalNotesManager.Application.Services
     await _context.SaveChangesAsync();
 }
 
-       
-       public async Task<IEnumerable<NoteDTO>> GetAllNotesAsync(int? userId = null)
+
+        public async Task<IEnumerable<NoteDTO>> GetAllNotesAsync(int userId)
         {
-            var query = _context.Notes
-                .AsNoTracking();
-            if (userId.HasValue)
-            {
-                query = query.Where(n => n.UserId == userId.Value);
-            }
-               return await _context.Notes
-                .AsNoTracking() 
+            return await _context.Notes
+                .Where(n => n.UserId == userId)
                 .Select(n => new NoteDTO
                 {
                     Id = n.Id,
@@ -40,11 +34,13 @@ namespace DigitalNotesManager.Application.Services
                     ReminderDate = n.ReminderDate,
                     CreatedDate = n.CreatedDate,
                     UserId = n.UserId,
-                    CategoryId = n.CategoryId 
+                    CategoryId = n.CategoryId ?? 0,
                 })
-                .ToListAsync();
+                .ToListAsync() ?? new List<NoteDTO>();
+
+
         }
-        
+
 
         public async Task<NoteDTO?> GetNoteByIdAsync(int id)
         {

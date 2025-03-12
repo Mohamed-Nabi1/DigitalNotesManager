@@ -34,6 +34,8 @@
             emailTxtBox = new TextBox();
             label2 = new Label();
             label1 = new Label();
+            registerBtn = new Button();
+            validationMsgLabel = new Label();
             SuspendLayout();
             // 
             // LoginBtn
@@ -99,11 +101,38 @@
             label1.TabIndex = 18;
             label1.Text = "LogIn";
             // 
+            // registerBtn
+            // 
+            registerBtn.BackColor = Color.White;
+            registerBtn.Font = new Font("Segoe UI", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            registerBtn.ForeColor = Color.Black;
+            registerBtn.Location = new Point(83, 492);
+            registerBtn.Name = "registerBtn";
+            registerBtn.Size = new Size(232, 37);
+            registerBtn.TabIndex = 24;
+            registerBtn.Text = "Register";
+            registerBtn.UseVisualStyleBackColor = false;
+            registerBtn.Click += registerBtn_Click;
+            // 
+            // validationMsgLabel
+            // 
+            validationMsgLabel.AutoSize = true;
+            validationMsgLabel.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            validationMsgLabel.ForeColor = Color.Red;
+            validationMsgLabel.Location = new Point(64, 256);
+            validationMsgLabel.Name = "validationMsgLabel";
+            validationMsgLabel.Size = new Size(92, 28);
+            validationMsgLabel.TabIndex = 25;
+            validationMsgLabel.Text = "                ";
+            validationMsgLabel.TextAlign = ContentAlignment.TopCenter;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(385, 600);
+            Controls.Add(validationMsgLabel);
+            Controls.Add(registerBtn);
             Controls.Add(LoginBtn);
             Controls.Add(passwordTxtBox);
             Controls.Add(label3);
@@ -126,5 +155,7 @@
         private TextBox emailTxtBox;
         private Label label2;
         private Label label1;
+        private Button registerBtn;
+        private Label validationMsgLabel;
     }
 }

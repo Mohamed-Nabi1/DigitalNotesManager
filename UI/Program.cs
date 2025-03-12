@@ -8,6 +8,8 @@ using Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System;
+using System.Windows.Forms;
 using UI.Forms;
 
 internal static class Program
@@ -36,8 +38,8 @@ internal static class Program
 
             Console.WriteLine("Services resolved successfully!");
 
-            // Run the application with MainForm and pass the required services
-            System.Windows.Forms.Application.Run(new MainForm(noteService, categoryService));
+            // Run the application with Form1 and pass the required services
+            System.Windows.Forms.Application.Run(new Form1(userService, noteService, categoryService));
         }
         catch (Exception ex)
         {
