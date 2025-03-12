@@ -10,5 +10,7 @@
         public DateTime CreatedDate { get; set; } = DateTime.Now;
 
         public int? CategoryId { get; set; }
+
+        
     }
 }

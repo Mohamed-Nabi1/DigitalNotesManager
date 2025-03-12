@@ -56,9 +56,10 @@
             alarmBtn = new Button();
             gridView = new DataGridView();
             comboBox1 = new ComboBox();
-            textBox1 = new TextBox();
-            button3 = new Button();
-            button4 = new Button();
+            searchBox = new TextBox();
+            SearchButton = new Button();
+            SortButton = new Button();
+            sortComboBox = new ComboBox();
             menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)gridView).BeginInit();
             SuspendLayout();
@@ -221,7 +222,7 @@
             ParentPanel.AutoScroll = true;
             ParentPanel.BackColor = SystemColors.ButtonFace;
             ParentPanel.FlowDirection = FlowDirection.TopDown;
-            ParentPanel.Location = new Point(465, 115);
+            ParentPanel.Location = new Point(491, 115);
             ParentPanel.Name = "ParentPanel";
             ParentPanel.Size = new Size(334, 520);
             ParentPanel.TabIndex = 1;
@@ -232,7 +233,7 @@
             button1.BackColor = SystemColors.ControlLight;
             button1.BackgroundImage = (Image)resources.GetObject("button1.BackgroundImage");
             button1.BackgroundImageLayout = ImageLayout.Zoom;
-            button1.Location = new Point(1261, 228);
+            button1.Location = new Point(1261, 196);
             button1.Name = "button1";
             button1.Size = new Size(49, 45);
             button1.TabIndex = 2;
@@ -244,7 +245,7 @@
             alarmBtn.BackColor = SystemColors.ControlLight;
             alarmBtn.BackgroundImage = (Image)resources.GetObject("alarmBtn.BackgroundImage");
             alarmBtn.BackgroundImageLayout = ImageLayout.Zoom;
-            alarmBtn.Location = new Point(1261, 177);
+            alarmBtn.Location = new Point(1261, 115);
             alarmBtn.Name = "alarmBtn";
             alarmBtn.Size = new Size(49, 45);
             alarmBtn.TabIndex = 3;
@@ -276,41 +277,52 @@
             comboBox1.BackColor = SystemColors.ButtonFace;
             comboBox1.Font = new Font("Segoe UI Symbol", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             comboBox1.FormattingEnabled = true;
-            comboBox1.Location = new Point(854, 117);
+            comboBox1.Location = new Point(854, 158);
             comboBox1.Name = "comboBox1";
             comboBox1.Size = new Size(377, 36);
             comboBox1.TabIndex = 5;
             // 
-            // textBox1
+            // searchBox
             // 
-            textBox1.BackColor = SystemColors.ButtonFace;
-            textBox1.Font = new Font("Segoe UI Symbol", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            textBox1.Location = new Point(854, 207);
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(309, 34);
-            textBox1.TabIndex = 6;
+            searchBox.BackColor = SystemColors.ButtonFace;
+            searchBox.Font = new Font("Segoe UI Symbol", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            searchBox.Location = new Point(854, 228);
+            searchBox.Name = "searchBox";
+            searchBox.Size = new Size(309, 34);
+            searchBox.TabIndex = 6;
             // 
-            // button3
+            // SearchButton
             // 
-            button3.BackColor = SystemColors.ControlLight;
-            button3.BackgroundImage = (Image)resources.GetObject("button3.BackgroundImage");
-            button3.BackgroundImageLayout = ImageLayout.Zoom;
-            button3.Location = new Point(1169, 207);
-            button3.Name = "button3";
-            button3.Size = new Size(62, 34);
-            button3.TabIndex = 7;
-            button3.UseVisualStyleBackColor = false;
+            SearchButton.BackColor = SystemColors.ControlLight;
+            SearchButton.BackgroundImage = (Image)resources.GetObject("SearchButton.BackgroundImage");
+            SearchButton.BackgroundImageLayout = ImageLayout.Zoom;
+            SearchButton.Location = new Point(1169, 228);
+            SearchButton.Name = "SearchButton";
+            SearchButton.Size = new Size(62, 34);
+            SearchButton.TabIndex = 7;
+            SearchButton.UseVisualStyleBackColor = false;
+            SearchButton.Click += SearchButton_Click;
             // 
-            // button4
+            // SortButton
             // 
-            button4.BackColor = SystemColors.ControlLight;
-            button4.BackgroundImage = (Image)resources.GetObject("button4.BackgroundImage");
-            button4.BackgroundImageLayout = ImageLayout.Zoom;
-            button4.Location = new Point(1261, 117);
-            button4.Name = "button4";
-            button4.Size = new Size(49, 44);
-            button4.TabIndex = 8;
-            button4.UseVisualStyleBackColor = false;
+            SortButton.BackColor = SystemColors.ControlLight;
+            SortButton.BackgroundImage = (Image)resources.GetObject("SortButton.BackgroundImage");
+            SortButton.BackgroundImageLayout = ImageLayout.Zoom;
+            SortButton.Location = new Point(1169, 77);
+            SortButton.Name = "SortButton";
+            SortButton.Size = new Size(62, 36);
+            SortButton.TabIndex = 8;
+            SortButton.UseVisualStyleBackColor = false;
+            SortButton.Click += SortButton_Click;
+            // 
+            // sortComboBox
+            // 
+            sortComboBox.Font = new Font("Segoe UI Symbol", 12F, FontStyle.Bold);
+            sortComboBox.FormattingEnabled = true;
+            sortComboBox.Location = new Point(854, 77);
+            sortComboBox.Name = "sortComboBox";
+            sortComboBox.Size = new Size(309, 36);
+            sortComboBox.TabIndex = 9;
             // 
             // MainForm
             // 
@@ -318,10 +330,11 @@
             BackColor = SystemColors.ButtonHighlight;
             BackgroundImage = (Image)resources.GetObject("$this.BackgroundImage");
             BackgroundImageLayout = ImageLayout.Center;
-            ClientSize = new Size(1336, 671);
-            Controls.Add(button4);
-            Controls.Add(button3);
-            Controls.Add(textBox1);
+            ClientSize = new Size(1336, 698);
+            Controls.Add(sortComboBox);
+            Controls.Add(SortButton);
+            Controls.Add(SearchButton);
+            Controls.Add(searchBox);
             Controls.Add(comboBox1);
             Controls.Add(gridView);
             Controls.Add(alarmBtn);
@@ -331,11 +344,12 @@
             ForeColor = Color.Maroon;
             Icon = (Icon)resources.GetObject("$this.Icon");
             MainMenuStrip = menuStrip1;
-            MaximumSize = new Size(1354, 718);
-            MinimumSize = new Size(1354, 718);
+            MaximumSize = new Size(1354, 745);
+            MinimumSize = new Size(1354, 745);
             Name = "MainForm";
             Text = "Digital Note Manger";
             TransparencyKey = Color.White;
+            Load += MainForm_Load;
             menuStrip1.ResumeLayout(false);
             menuStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)gridView).EndInit();
@@ -368,11 +382,12 @@
         private Button alarmBtn;
         private DataGridView gridView;
         private ComboBox comboBox1;
-        private TextBox textBox1;
-        private Button button3;
-        private Button button4;
+        private TextBox searchBox;
+        private Button SearchButton;
+        private Button SortButton;
         private ToolStripMenuItem aboutToolStripMenuItem1;
         private ToolStripMenuItem titleToolStripMenuItem1;
         private ToolStripMenuItem cascadeToolStripMenuItem1;
+        private ComboBox sortComboBox;
     }
 }

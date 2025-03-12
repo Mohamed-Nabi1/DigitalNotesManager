@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -7,7 +8,9 @@ using Application.Interfaces;
 using Application.Services;
 using DigitalNotesManager.Application.DTOs;
 using DigitalNotesManager.Application.Interfaces;
+using Domain.Entities;
 using Infrastructure.Context;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace UI.Forms
 {
@@ -15,42 +18,77 @@ namespace UI.Forms
     {
         INoteService _noteService;
         ICategoryService _categoryService;
+        int idUser;
 
-        public MainForm(INoteService noteService, ICategoryService categoryService)
+        #region Constructor
+        public MainForm(int id,INoteService noteService, ICategoryService categoryService)
         {
-            InitializeComponent();
+            InitializeComponent(); 
+            this.idUser = id;
             _noteService = noteService;
             this.IsMdiContainer = true;
             _categoryService = categoryService;
+           
             LoadContent();
-        }
 
+        }
+        #endregion
 
         #region  Load Data into GridView And CardNote
         private async Task LoadContent()
         {
+            
             await LoadNotesInPanel();
             await LoadNotesInGrid(gridView);
-            
+
 
         }
-
         public async Task LoadNotesInGrid(DataGridView gridView)
         {
-            var notes = await _noteService.GetAllNotesAsync();
-            gridView.DataSource = notes.Select(n => new { n.Id, n.Title, n.ReminderDate, n.CreatedDate, 
-                n.CategoryId ,n.UserId }).ToList();
+            
 
+            if (gridView == null)
+            {
+                MessageBox.Show("GridView is Not Found");
+                return;
+            }
+
+            var notes = await _noteService.GetAllNotesAsync(idUser);
+
+            if (notes == null || !notes.Any()) 
+            {
+                gridView.DataSource = null;  
+                return;
+            }
+
+            gridView.DataSource = notes.Select(n => new
+            {
+                n.Id,
+                n.Title,
+                n.ReminderDate,
+                n.CreatedDate,
+                n.CategoryId,
+                n.Content,
+                n.UserId
+            }).ToList();
         }
+
 
         public async Task LoadNotesInPanel()
         {
             ParentPanel.Controls.Clear();
-            var notes = await _noteService.GetAllNotesAsync();
+
+            var notes = await _noteService.GetAllNotesAsync(idUser);
+
+            if (notes == null || !notes.Any())
+            {
+                MessageBox.Show("No Notes Found ");
+                return;
+            }
 
             foreach (var note in notes)
             {
-                NoteCard noteCard = new NoteCard(note, gridView, _noteService, _categoryService);
+                NoteCard noteCard = new NoteCard(idUser,note, gridView, _noteService, _categoryService);
                 ParentPanel.Controls.Add(noteCard);
             }
 
@@ -62,7 +100,7 @@ namespace UI.Forms
         #region File(New|Open|Save|Exit) Tools IN Menue
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            NoteForm noteForm = new NoteForm(this, ParentPanel, gridView, _noteService, _categoryService);
+            NoteForm noteForm = new NoteForm(idUser,this, ParentPanel, gridView, _noteService, _categoryService);
             noteForm.MdiParent = this;
             noteForm.Show();
         }
@@ -78,7 +116,7 @@ namespace UI.Forms
             if (openFile.ShowDialog() == DialogResult.OK)
             {
                 string contentInFile = File.ReadAllText(openFile.FileName);
-                NoteForm notepadForm = new NoteForm(this, ParentPanel, gridView, _noteService, _categoryService);
+                NoteForm notepadForm = new NoteForm(idUser, this, ParentPanel, gridView, _noteService, _categoryService);
                 notepadForm.MdiParent = this;
                 notepadForm.DisplayFileContent(contentInFile);
                 notepadForm.Show();
@@ -210,17 +248,17 @@ namespace UI.Forms
 
             aboutForm.ShowDialog();
         }
-       
+
         #endregion
 
 
         #region  Select Item In GridView
 
-         private async void gridView_CellContentClick(object sender, DataGridViewCellEventArgs e)
-         {
+        private async void gridView_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
             if (e.RowIndex >= 0)
             {
-                 DataGridViewRow selectedRow = gridView.Rows[e.RowIndex];
+                DataGridViewRow selectedRow = gridView.Rows[e.RowIndex];
 
                 int selectId = Convert.ToInt32(selectedRow.Cells["Id"].Value);
 
@@ -238,18 +276,18 @@ namespace UI.Forms
                     noteForm.Show();
                 }
             }
-                
-         }
+
+        }
 
         #endregion
 
 
         #region To Show Alarm Form
-        private HashSet<int> shownNoteIds = new HashSet<int>();
 
+        private HashSet<int> shownNoteIds = new HashSet<int>();
         private async void alarmBtn_Click(object sender, EventArgs e)
         {
-            var notes = await _noteService.GetAllNotesAsync();
+            var notes = await _noteService.GetAllNotesAsync(idUser);
             var reminderNotes = notes.Where(n => n.ReminderDate <= DateTime.Now && !shownNoteIds.Contains(n.Id)).ToList();
 
             if (reminderNotes.Any())
@@ -258,7 +296,7 @@ namespace UI.Forms
                 {
                     AlarmForm alarm = new AlarmForm(note.Title, note.Content);
                     alarm.Show();
-                    shownNoteIds.Add(note.Id); 
+                    shownNoteIds.Add(note.Id);
                 }
             }
             else
@@ -267,7 +305,94 @@ namespace UI.Forms
             }
         }
 
+
         #endregion
+
+        #region Search Form Content And Title
+        private async void SearchButton_Click(object sender, EventArgs e)
+        {
+
+            await SearchAndFilterNotes();
+        }
+
+        private async Task SearchAndFilterNotes()
+        {
+            var notes = await _noteService.GetAllNotesAsync(idUser);
+
+            string searchText = searchBox.Text.Trim().ToLower();
+
+            int selectedCategoryId = comboBox1.SelectedItem != null ? (int)comboBox1.SelectedValue : 0;
+
+            var filteredNotes = notes.Where(n =>
+                (string.IsNullOrEmpty(searchText) ||
+                 n.Title.ToLower().Contains(searchText) ||
+                 n.Content.ToLower().Contains(searchText)) &&
+                (selectedCategoryId == 0 || n.CategoryId == selectedCategoryId)
+            ).ToList();
+
+            gridView.DataSource = filteredNotes.Select(n => new
+            {
+                n.Id,
+                n.Title,
+                n.ReminderDate,
+                n.CreatedDate,
+                n.CategoryId,n.Content,
+                n.UserId
+            }).ToList();
+        }
+
+        #endregion
+
+        #region  Sort Notes In Grid View
+                private void SortButton_Click(object sender, EventArgs e)
+                {
+                    if (sortComboBox.SelectedItem == null) return;
+
+                    string selectedSortOption = sortComboBox.SelectedItem.ToString();
+                    SortNotes(selectedSortOption);
+                }
+                private async void SortNotes(string sortBy)
+                {
+
+                    var allNotes = await _noteService.GetAllNotesAsync(idUser);
+                    if (allNotes == null || !allNotes.Any())
+                    {
+                        MessageBox.Show("No Notes to Sort");
+                        return;
+                    }
+                    switch (sortBy)
+                    {
+                        case "Title":
+                            allNotes = allNotes.OrderBy(n => n.Title).ToList();
+                            break;
+                        case "Reminder Date":
+                            allNotes = allNotes.OrderBy(n => n.ReminderDate).ToList();
+                            break;
+                        case "Created Date":
+                            allNotes = allNotes.OrderBy(n => n.CreatedDate).ToList();
+                            break;
+                    }
+                    gridView.DataSource = allNotes.Select(n => new
+                    {
+                        n.Id,
+                        n.Title,
+                        n.ReminderDate,
+                        n.CreatedDate,
+                        n.CategoryId,
+                        n.UserId
+                    }).ToList();
+                }
+
+                private void MainForm_Load(object sender, EventArgs e)
+                {
+                    sortComboBox.Items.AddRange(new[] { "Title", "Reminder Date", "Created Date" });
+
+                    sortComboBox.SelectedIndex = 0;
+                    sortComboBox.SelectedIndexChanged += SortButton_Click;
+                }
+
+        #endregion
+
     }
 
 }

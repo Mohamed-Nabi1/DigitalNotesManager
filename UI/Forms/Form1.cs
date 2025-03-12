@@ -15,7 +15,12 @@ namespace UI.Forms
             _categoryService = categoryService;
             InitializeComponent();
         }
-
+        public Form1(IUserService userService)
+        {
+            _userService = userService;
+            
+            InitializeComponent();
+        }
         private void Form1_Load(object sender, EventArgs e)
         {
 
@@ -30,13 +35,13 @@ namespace UI.Forms
             var user = userList.ToList().Find(xx => xx.Email == email && xx.Password == password);
             if (user != null)
             {
-                MainForm mainform = new MainForm(_noteService, _categoryService);
+                MainForm mainform = new MainForm(user.Id,_noteService, _categoryService);
                 this.Hide();
                 mainform.ShowDialog();
             }
             else
             {
-                validationMsgLabel.Text = "emaill address or password is not valid";
+                validationMsgLabel.Text = "Emaill Address Or Password Is Not Valid";
             }
         }
 

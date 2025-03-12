@@ -43,9 +43,10 @@
             LoginBtn.BackColor = Color.SeaGreen;
             LoginBtn.Font = new Font("Segoe UI", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             LoginBtn.ForeColor = Color.White;
-            LoginBtn.Location = new Point(61, 287);
+            LoginBtn.Location = new Point(70, 383);
+            LoginBtn.Margin = new Padding(3, 4, 3, 4);
             LoginBtn.Name = "LoginBtn";
-            LoginBtn.Size = new Size(232, 37);
+            LoginBtn.Size = new Size(265, 49);
             LoginBtn.TabIndex = 23;
             LoginBtn.Text = "LogIn";
             LoginBtn.UseVisualStyleBackColor = false;
@@ -53,9 +54,10 @@
             // 
             // passwordTxtBox
             // 
-            passwordTxtBox.Location = new Point(138, 211);
+            passwordTxtBox.Location = new Point(158, 281);
+            passwordTxtBox.Margin = new Padding(3, 4, 3, 4);
             passwordTxtBox.Name = "passwordTxtBox";
-            passwordTxtBox.Size = new Size(176, 23);
+            passwordTxtBox.Size = new Size(201, 27);
             passwordTxtBox.TabIndex = 22;
             // 
             // label3
@@ -63,17 +65,18 @@
             label3.AutoSize = true;
             label3.Font = new Font("Segoe Print", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label3.ForeColor = Color.SeaGreen;
-            label3.Location = new Point(26, 211);
+            label3.Location = new Point(30, 281);
             label3.Name = "label3";
-            label3.Size = new Size(93, 28);
+            label3.Size = new Size(115, 35);
             label3.TabIndex = 21;
             label3.Text = "Password:";
             // 
             // emailTxtBox
             // 
-            emailTxtBox.Location = new Point(138, 155);
+            emailTxtBox.Location = new Point(158, 207);
+            emailTxtBox.Margin = new Padding(3, 4, 3, 4);
             emailTxtBox.Name = "emailTxtBox";
-            emailTxtBox.Size = new Size(176, 23);
+            emailTxtBox.Size = new Size(201, 27);
             emailTxtBox.TabIndex = 20;
             // 
             // label2
@@ -81,9 +84,9 @@
             label2.AutoSize = true;
             label2.Font = new Font("Segoe Print", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label2.ForeColor = Color.SeaGreen;
-            label2.Location = new Point(26, 150);
+            label2.Location = new Point(30, 200);
             label2.Name = "label2";
-            label2.Size = new Size(63, 28);
+            label2.Size = new Size(80, 35);
             label2.TabIndex = 19;
             label2.Text = "Email:";
             // 
@@ -92,9 +95,9 @@
             label1.AutoSize = true;
             label1.Font = new Font("Segoe Print", 24F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label1.ForeColor = Color.SeaGreen;
-            label1.Location = new Point(108, 55);
+            label1.Location = new Point(120, 88);
             label1.Name = "label1";
-            label1.Size = new Size(111, 56);
+            label1.Size = new Size(141, 70);
             label1.TabIndex = 18;
             label1.Text = "LogIn";
             // 
@@ -103,7 +106,7 @@
             registerBtn.BackColor = Color.White;
             registerBtn.Font = new Font("Segoe UI", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             registerBtn.ForeColor = Color.Black;
-            registerBtn.Location = new Point(61, 343);
+            registerBtn.Location = new Point(83, 492);
             registerBtn.Name = "registerBtn";
             registerBtn.Size = new Size(232, 37);
             registerBtn.TabIndex = 24;
@@ -118,16 +121,16 @@
             validationMsgLabel.ForeColor = Color.Red;
             validationMsgLabel.Location = new Point(64, 256);
             validationMsgLabel.Name = "validationMsgLabel";
-            validationMsgLabel.Size = new Size(74, 21);
+            validationMsgLabel.Size = new Size(92, 28);
             validationMsgLabel.TabIndex = 25;
             validationMsgLabel.Text = "                ";
             validationMsgLabel.TextAlign = ContentAlignment.TopCenter;
             // 
             // Form1
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(337, 450);
+            ClientSize = new Size(385, 600);
             Controls.Add(validationMsgLabel);
             Controls.Add(registerBtn);
             Controls.Add(LoginBtn);
@@ -136,6 +139,7 @@
             Controls.Add(emailTxtBox);
             Controls.Add(label2);
             Controls.Add(label1);
+            Margin = new Padding(3, 4, 3, 4);
             Name = "Form1";
             Text = "Form1";
             Load += Form1_Load;

@@ -19,79 +19,290 @@ namespace UI.Forms
         private MainForm _mainForm;
         private NoteDTO currentNote;
         private bool isSaving = false;
+        private CheckedListBox checkedListBox1;
+        private CategorySelector categorySelector;
+        private TextBox itemInput;
+        private Button addItemButton;
+        int idUser;
 
-        // Constructor for adding a new note
-        public NoteForm(MainForm mainForm, FlowLayoutPanel parent, DataGridView gridView, INoteService noteService, ICategoryService categoryService)
-        {
-            InitializeComponent();
-            _mainForm = mainForm;
-            parentPanel = parent;
-            this.gridView = gridView;
-            _noteService = noteService;
-            _categoryService = categoryService;
-            LoadCategories();
 
-        }
-
-        // Constructor for editing an existing note
-        public NoteForm(NoteDTO note, FlowLayoutPanel parent, DataGridView gridView, INoteService noteService, ICategoryService categoryService)
-        {
-            InitializeComponent();
-            parentPanel = parent;
-            noteIdToEdit = note.Id;
-            currentNote = note;
-            this.gridView = gridView;
-            _noteService = noteService;
-            _categoryService = categoryService;
-            LoadCategories();
-        }
-
-        #region Load Data 
-        private async void LoadCategories()
-        {
-            var categories = await _categoryService.GetAllCategoriesAsync();
-
-            if (categories == null || !categories.Any())
+        #region Constructor for adding a new note
+        public NoteForm(int id, MainForm mainForm, FlowLayoutPanel parent, DataGridView gridView, INoteService noteService, ICategoryService categoryService)
             {
-                MessageBox.Show("No categories found!");
-                return;
+                InitializeComponent();
+                this.idUser = id;
+                _mainForm = mainForm;
+                parentPanel = parent;
+                this.gridView = gridView;
+                _noteService = noteService;
+                _categoryService = categoryService;
+                var categorySelector = new CategorySelector(categoryService) { Dock = DockStyle.None };
+                categorySelector.CategoryChanged += CategorySelector_CategoryChanged;
+                
+                Controls.Add(categorySelector);
+                checkedListBox1 = new CheckedListBox
+                {
+                    Size = new System.Drawing.Size(408, 204),
+                    Location = new System.Drawing.Point(10, 108),
+                    BackColor = Color.Beige,
+                    Visible = true
+                };
+
+                Controls.Add(checkedListBox1);
+                
+        }
+        #endregion
+
+
+        #region Constructor for editing an existing note
+            public NoteForm(NoteDTO note, FlowLayoutPanel parent, DataGridView gridView, INoteService noteService, ICategoryService categoryService)
+            {
+                InitializeComponent();
+                parentPanel = parent;
+                noteIdToEdit = note.Id;
+                currentNote = note;
+                this.gridView = gridView;
+                _noteService = noteService;
+                _categoryService = categoryService;
+                LoadEditNote();
+                var categorySelector = new CategorySelector(categoryService) { Dock = DockStyle.None };
+                categorySelector.CategoryChanged += CategorySelector_CategoryChanged;
+                Controls.Add(categorySelector);
+
+                checkedListBox1 = new CheckedListBox
+                {
+                    Size = new System.Drawing.Size(408, 204),
+                    Location = new System.Drawing.Point(10, 108),
+                    BackColor = Color.Beige,
+                    Visible = true 
+                };
+
+                Controls.Add(checkedListBox1);
             }
 
-            CategoryComboBox.DataSource = categories;
-            CategoryComboBox.DisplayMember = "Name";
-            CategoryComboBox.ValueMember = "Id";
-            LoadEditNote();
+        #endregion
+
+
+        #region Event When Change Category
+        private void CategorySelector_CategoryChanged(object sender, string newCategory)
+        {
+            lblCategory.Text = newCategory;
+
+            if (newCategory == "Important")
+            {
+                richTextBox1.Visible= false;
+                checkedListBox1 .Visible = true;
+                
+                if (checkedListBox1 == null)
+                {
+                    checkedListBox1 = new CheckedListBox
+                    {
+                        Size = new System.Drawing.Size(408, 204),
+                        Location = new System.Drawing.Point(10, 108),
+                        Visible = true
+                    };
+                }
+                checkedListBox1.Items.Clear();
+                if (!string.IsNullOrEmpty(currentNote?.Content))
+                {
+                    string normalText = ConvertRtfTText(currentNote.Content); 
+                    var items = normalText.Split(new[] { "\n" }, StringSplitOptions.RemoveEmptyEntries);
+
+                    foreach (var item in items)
+                    {
+                        bool isChecked = item.StartsWith("[x] "); 
+                        string itemText = isChecked ? item.Substring(4) : item;
+                        checkedListBox1.Items.Add(itemText, isChecked);
+                    }
+                }
+
+                Controls.Add(checkedListBox1);
+                SetupChecklistControls();
+                GetChecklistContent();
+            }
+            else
+            {
+                if (richTextBox1 == null)
+                {
+                    richTextBox1 = new RichTextBox
+                    {
+                        Size = new System.Drawing.Size(408, 232),
+                        Location = new System.Drawing.Point(10, 50),
+                        BackColor= Color.Beige,
+                        Visible = true
+                    };
+                }
+
+                richTextBox1.Visible = true;
+                checkedListBox1.Visible = false;
+                Controls.Remove(itemInput);
+                Controls.Remove(addItemButton);
+                switch (newCategory)
+                {
+                    case "Work":
+                        richTextBox1.BackColor = Color.LightYellow;
+                        break;
+                    case "Personal":
+                        richTextBox1.BackColor = Color.LightGreen;
+                        break;
+                    case "Not Important":
+                        richTextBox1.BackColor = Color.Tan;
+                        break;
+                    default:
+                        richTextBox1.BackColor = Color.White;
+                        break;
+                }
+               
+                if (!string.IsNullOrEmpty(currentNote?.Content))
+                {
+                    try
+                    {
+                        richTextBox1.Rtf = currentNote.Content; 
+                    }
+                    catch
+                    {
+                        richTextBox1.Text = currentNote.Content; 
+                    }
+                }
+
+                Controls.Add(richTextBox1);
+            }
         }
 
-        private void LoadEditNote()
+        private string ConvertRtfTText(string rtfContent)
         {
-            if (currentNote != null)
+            using (RichTextBox rtb = new RichTextBox())
             {
-                TitleTxt.Text = currentNote.Title;
                 try
                 {
-
-                    this.richTextBox1.Rtf = currentNote.Content;
+                    rtb.Rtf = rtfContent;
+                    return rtb.Text;
                 }
                 catch
                 {
-
-                    this.richTextBox1.Text = currentNote.Content;
-                }
-                ReminderPicker.Value = currentNote.ReminderDate ?? DateTime.Now;
-
-                if (CategoryComboBox.DataSource != null)
-                {
-                    CategoryComboBox.SelectedValue = currentNote.CategoryId;
-                }
-                else
-                {
-                    MessageBox.Show("Wait to loaded Categories");
+                    return rtfContent; 
                 }
             }
         }
 
         #endregion
+
+
+        #region CheckBox Setting 
+        private void SetupChecklistControls()
+            {
+
+                itemInput = new TextBox
+                {
+                    Size = new System.Drawing.Size(316, 29),
+                    Location = new System.Drawing.Point(12, 314)
+                };
+            
+                addItemButton = new Button
+                {
+                    Text = "Add",
+                    Size = new System.Drawing.Size(77, 29),
+                    Location = new System.Drawing.Point(334, 314)
+                };
+                addItemButton.Click += (s, e) =>
+                {
+                    if (!string.IsNullOrWhiteSpace(itemInput.Text))
+                    {
+                        checkedListBox1.Items.Add(itemInput.Text, false);
+                        itemInput.Clear();
+                    }
+                };
+                Controls.Add(itemInput);
+                Controls.Add(addItemButton);
+            }
+
+        private string GetChecklistContent()
+            {
+                if (checkedListBox1 != null && checkedListBox1.Visible)
+                {
+                    List<string> items = new List<string>();
+                    foreach (var item in checkedListBox1.Items)
+                    {
+                        items.Add(item.ToString());
+                    }
+                    return string.Join("\n", items);
+                }
+                return richTextBox1.Text;
+            }
+
+
+        #endregion
+
+
+        #region Load Data 
+        private async void LoadEditNote()
+            {
+                if (currentNote != null)
+                {
+                    TitleTxt.Text = currentNote.Title;
+                    ReminderPicker.Value = currentNote.ReminderDate ?? DateTime.Now;
+                    if (currentNote.CategoryId.HasValue)
+                    {
+                        var category = await _categoryService.GetCategoryByIdAsync(currentNote.CategoryId.Value);
+                        lblCategory.Text = category != null ? category.Name : "No Category";
+
+                        if (category.Name == "Important")  
+                        {
+                            ShowCheckList(currentNote.Content);
+                            GetChecklistContent();
+                        }
+                        else
+                        {
+                            ShowRichText(currentNote.Content);
+                        }
+                    }
+                    else
+                    {
+                        lblCategory.Text = "No Category";
+                        ShowRichText(currentNote.Content);
+                    }
+                }
+            }
+        #endregion
+
+
+        #region  Show CheckList Or RichTextBox Depend On Category
+            private void ShowCheckList(string content)
+            {
+                richTextBox1.Visible = false;
+                checkedListBox1.Visible = true;
+                checkedListBox1.Items.Clear();
+
+                if (!string.IsNullOrEmpty(content))
+                {
+                    var items = content.Split('\n');
+                    foreach (var item in items)
+                    {
+                        checkedListBox1.Items.Add(item.Trim(), true);
+                    }
+                }
+            }
+
+
+            private void ShowRichText(string content)
+            {
+                richTextBox1.Visible = true;
+                checkedListBox1.Visible = false;
+
+                try
+                {
+                    richTextBox1.Rtf = content; 
+                }
+                catch
+                {
+                    richTextBox1.Text = content; 
+                }
+            }
+
+       
+
+        #endregion
+
 
         #region Return Data From File
         public void DisplayFileContent(string contentInFile)
@@ -109,6 +320,7 @@ namespace UI.Forms
             return richTextBox1;
         }
         #endregion
+
 
         #region Apply Text Formatting
         public void StyleBold()
@@ -142,15 +354,31 @@ namespace UI.Forms
         }
         #endregion
 
+
         #region Add or Update Note
         private async void btnAdd_Click(object sender, EventArgs e)
         {
-            isSaving = true; 
+            isSaving = true;
 
+            int userId = idUser;
             string title = TitleTxt.Text.Trim();
-            string content = richTextBox1.Rtf;
+            string contentToSave = "";
+
+            if (checkedListBox1.Visible)
+            {
+                var items = new List<string>();
+                foreach (var item in checkedListBox1.Items)
+                {
+                    items.Add(item.ToString());
+                }
+                contentToSave = string.Join("\n", items);
+            }
+            else
+            {
+                contentToSave = richTextBox1.Rtf; 
+            }
             DateTime reminderDate = ReminderPicker.Value;
-            string categoryText = CategoryComboBox.Text.Trim();
+            string categoryText = lblCategory.Text.Trim();
 
             var selectedCategory = await _categoryService.GetCategoryByNameAsync(categoryText);
 
@@ -163,7 +391,7 @@ namespace UI.Forms
 
             int categoryId = selectedCategory.Id;
 
-            if (!string.IsNullOrWhiteSpace(title) && !string.IsNullOrWhiteSpace(content))
+            if (!string.IsNullOrWhiteSpace(title) && !string.IsNullOrWhiteSpace(contentToSave))
             {
                 if (noteIdToEdit != null)
                 {
@@ -171,10 +399,10 @@ namespace UI.Forms
                     {
                         Id = noteIdToEdit.Value,
                         Title = title,
-                        Content = content,
+                        Content = contentToSave,
                         ReminderDate = reminderDate,
                         CreatedDate = DateTime.Now,
-                        UserId = 2,
+                        UserId = userId,
                         CategoryId = categoryId
                     };
 
@@ -185,11 +413,12 @@ namespace UI.Forms
                     var newNote = new NoteDTO
                     {
                         Title = title,
-                        Content = content,
+                        Content = contentToSave,
                         ReminderDate = reminderDate,
                         CreatedDate = DateTime.Now,
-                        UserId = 2,
-                        CategoryId = categoryId
+                        UserId = userId,
+                        CategoryId = categoryId,
+                        
                     };
 
                     await _noteService.AddNoteAsync(newNote);
@@ -220,8 +449,7 @@ namespace UI.Forms
         #region Msg For Closing Form
             private void NoteForm_FormClosing(object sender, FormClosingEventArgs e)
             {
-                var result = MessageBox.Show(
-            "Do You Want to Close ?","Close Form",MessageBoxButtons.YesNo,MessageBoxIcon.Warning);
+                var result = MessageBox.Show("Do You Want to Close ?","Close Form",MessageBoxButtons.YesNo,MessageBoxIcon.Warning);
                 if (result == DialogResult.No)
                 {
                     e.Cancel = true;

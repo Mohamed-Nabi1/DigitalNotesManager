@@ -1,4 +1,5 @@
-﻿using DigitalNotesManager.Application.DTOs;
+﻿using System.Windows.Forms;
+using DigitalNotesManager.Application.DTOs;
 using DigitalNotesManager.Application.Interfaces;
 using Domain.Entities;
 using Infrastructure.Context;
@@ -20,31 +21,26 @@ namespace DigitalNotesManager.Application.Services
     await _context.SaveChangesAsync();
 }
 
-       
-       public async Task<IEnumerable<NoteDTO>> GetAllNotesAsync(int? userId = null)
-        {
-            var query = _context.Notes
-                .AsNoTracking();
-            if (userId.HasValue)
-            {
-                query = query.Where(n => n.UserId == userId.Value);
-            }
 
-       return await _context.Notes
-        .AsNoTracking() 
-        .Select(n => new NoteDTO
+        public async Task<IEnumerable<NoteDTO>> GetAllNotesAsync(int userId)
         {
-            Id = n.Id,
-            Title = n.Title,
-            Content = n.Content,
-            ReminderDate = n.ReminderDate,
-            CreatedDate = n.CreatedDate,
-            UserId = n.UserId,
-            CategoryId = n.CategoryId 
-        })
-        .ToListAsync();
+            return await _context.Notes
+                .Where(n => n.UserId == userId)
+                .Select(n => new NoteDTO
+                {
+                    Id = n.Id,
+                    Title = n.Title,
+                    Content = n.Content,
+                    ReminderDate = n.ReminderDate,
+                    CreatedDate = n.CreatedDate,
+                    UserId = n.UserId,
+                    CategoryId = n.CategoryId ?? 0,
+                })
+                .ToListAsync() ?? new List<NoteDTO>();
+
+
         }
-        
+
 
         public async Task<NoteDTO?> GetNoteByIdAsync(int id)
         {
@@ -100,5 +96,30 @@ namespace DigitalNotesManager.Application.Services
             _context.Notes.Remove(note);
             await _context.SaveChangesAsync();
         }
+
+
+        public async Task<IEnumerable<NoteDTO>> SearchNotesAsync(string searchText, int? userId = null)
+        {
+            var query = _context.Notes.AsQueryable();
+
+            if (userId.HasValue)
+            {
+                query = query.Where(n => n.UserId == userId.Value);
+            }
+
+            query = query.Where(n => n.Title.Contains(searchText) || n.Content.Contains(searchText));
+
+            return await query.Select(n => new NoteDTO
+            {
+                Id = n.Id,
+                Title = n.Title,
+                Content = n.Content,
+                CategoryId = n.CategoryId,
+                ReminderDate = n.ReminderDate
+            }).ToListAsync();
+        }
+        
+
+
     }
 }

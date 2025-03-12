@@ -1,40 +1,81 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.Windows.Forms;
 using System.Threading.Tasks;
+using Application.Interfaces;
 
-namespace UI.Forms
+public class CategorySelector : UserControl
 {
-    public class CategorySelector : UserControl
-    {
+    private ComboBox cmbCategories;
+    private readonly ICategoryService _categoryService;
+    public event EventHandler<string> CategoryChanged;
 
-        public event EventHandler<string> CategoryChanged;
-
-        public CategorySelector()
+    #region Constructor
+        public CategorySelector(ICategoryService categoryService)
         {
-            cmbCategories = new ComboBox { Dock = DockStyle.Fill };
-            cmbCategories.Items.AddRange(new string[] { "Work", "Personal", "Ideas", "Other" });
-            cmbCategories.SelectedIndexChanged += CmbCategories_SelectedIndexChanged;
-            Controls.Add(cmbCategories);
+            _categoryService = categoryService;
+            InitializeComponent();
+            LoadCategoriesAsync();
         }
+    #endregion
 
-        private void CmbCategories_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            // Raise the custom event when selection changes
-            CategoryChanged?.Invoke(this, cmbCategories.SelectedItem.ToString());
-        }
-        private ComboBox cmbCategories;
-
+    #region To Initialize Component
         private void InitializeComponent()
         {
+            cmbCategories = new ComboBox();
             SuspendLayout();
-            // 
-            // CategorySelector
-            // 
+
+            cmbCategories.Location = new Point(0, 0);
+            cmbCategories.Name = "cmbCategories";
+            cmbCategories.Size = new Size(408, 31);
+            cmbCategories.TabIndex = 0;
+            cmbCategories.SelectedIndexChanged += CmbCategories_SelectedIndexChanged;
+
+            Controls.Add(cmbCategories);
+            Location = new Point(14, 490);
             Name = "CategorySelector";
-            Size = new Size(223, 166);
+            Padding = new Padding(20, 20, 0, 0);
+            Size = new Size(408, 31);
             ResumeLayout(false);
         }
+    #endregion
+
+    #region Load Category From DataBase Into ComboBox
+        private async void LoadCategoriesAsync()
+        {
+                var categories = await _categoryService.GetAllCategoriesAsync();
+                if (categories == null || !categories.Any())
+                {
+                    MessageBox.Show("No Categories Found", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    return;
+                }
+                cmbCategories.Invoke((MethodInvoker)delegate
+                {
+                    cmbCategories.Items.Clear();
+                    foreach (var category in categories)
+                    {
+                        cmbCategories.Items.Add(category.Name);
+                    }
+                });
+        }
+    #endregion
+
+    #region To Fire Event
+        private void CmbCategories_SelectedIndexChanged(object sender, EventArgs e)
+        {
+        
+            CategoryChanged?.Invoke(this, cmbCategories.SelectedItem?.ToString());
+        }
+
+    #endregion
+
+    #region Select Category
+    public void SetSelectedCategory(string categoryName)
+    {
+        if (cmbCategories.Items.Contains(categoryName))
+        {
+            cmbCategories.SelectedItem = categoryName;
+        }
     }
+
+    #endregion
 }

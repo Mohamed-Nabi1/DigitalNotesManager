@@ -31,7 +31,7 @@ namespace UIPresentation
         {
             if(string.IsNullOrEmpty(emailTxtBox.Text)|| string.IsNullOrEmpty(passwordTxtBox.Text) ||string.IsNullOrEmpty( UserNameTxtBox.Text) )
             {
-                validationMsgLabel.Text = "please complete all required data";
+                validationMsgLabel.Text = "Please Complete All Required Data";
             }
             else
             {
@@ -42,9 +42,9 @@ namespace UIPresentation
 
                 await _userService.AddUserAsync(userDTO);
 
-                MainForm mainform = new MainForm(_noteService, _categoryService);
+                Form1 login = new Form1(_userService);
                 this.Hide();
-                mainform.ShowDialog();
+                login.ShowDialog();
             }
             
         }

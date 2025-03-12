@@ -21,7 +21,6 @@ namespace DigitalNotesManager.Application.Services
                 .Select(u => new UserDTO
                 {
                     Id = u.Id,
-                    Username = u.Username,
                     Email = u.Email,
                     Password = u.Password,
                 })

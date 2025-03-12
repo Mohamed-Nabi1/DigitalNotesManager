@@ -16,24 +16,24 @@ namespace UI
         private readonly int noteId;
         private readonly DataGridView gridView;
         private readonly INoteService _noteService;
-
         private readonly ICategoryService _categoryService;
+        int idUser;
 
-        public NoteCard(NoteDTO note, DataGridView gridView, INoteService noteService, ICategoryService categoryService)
-        {
-            this.noteId = note.Id;
-            this.gridView = gridView;
-            this._noteService = noteService;
-
-            InitializeComponent();
-
-            this.BackColor = Color.Bisque;
-            this.Padding = new Padding(10);
-            this.Margin = new Padding(10);
-            this.BorderStyle = BorderStyle.FixedSingle;
-            _categoryService = categoryService;
-            LoadNoteCard(note);
-        }
+        #region Constructor
+        public NoteCard(int id, NoteDTO note, DataGridView gridView, INoteService noteService, ICategoryService categoryService)
+            {
+                InitializeComponent();
+                 this.noteId = note.Id;
+                this.gridView = gridView;
+                this._noteService = noteService;
+                this.BackColor = Color.Bisque;
+                this.Padding = new Padding(10);
+                this.Margin = new Padding(10);
+                this.BorderStyle = BorderStyle.FixedSingle;
+                _categoryService = categoryService;
+                LoadNoteCard(note);
+            }
+        #endregion
 
         #region Display CardNote  
         private async void LoadNoteCard(NoteDTO note)
@@ -87,8 +87,6 @@ namespace UI
             NoteForm noteForm = new NoteForm(note, this.Parent as FlowLayoutPanel, gridView, _noteService, _categoryService);
             noteForm.MdiParent = this.ParentForm;
 
-            noteForm.DisplayFileContent(content);
-
             noteForm.FormClosed += async (s, args) =>
             {
                 var updatedNote = await _noteService.GetNoteByIdAsync(this.noteId);
@@ -102,7 +100,7 @@ namespace UI
 
         private async Task RefreshGridView()
         {
-            var notes = await _noteService.GetAllNotesAsync();
+            var notes = await _noteService.GetAllNotesAsync(idUser);
             gridView.DataSource = notes.Select(n => new { n.Id, n.Title, n.ReminderDate, n.CategoryId,n.CreatedDate,n.UserId }).ToList();
         }
 

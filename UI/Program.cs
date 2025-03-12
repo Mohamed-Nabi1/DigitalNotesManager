@@ -1,90 +1,92 @@
-using System;
-using System.Windows.Forms;
+using Application.Interfaces;
+using Application.Services;
+using DigitalNotesManager.Application.Interfaces;
+using DigitalNotesManager.Application.Services;
+using Domain.Interfaces;
+using Infrastructure.Context;
+using Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Application.Interfaces;
-using Application.Services;
-using Infrastructure.Context;
-using Domain.Interfaces;
-using Infrastructure.Repositories;
+using System;
+using System.Windows.Forms;
 using UI.Forms;
-using DigitalNotesManager.Application.Interfaces;
-using DigitalNotesManager.Application.Services;
 
-namespace UI
+internal static class Program
 {
-    internal static class Program
+    // Static property to store the ServiceProvider
+    public static IServiceProvider ServiceProvider { get; private set; }
+
+    [STAThread]
+    static void Main()
     {
-        [STAThread]
-        static void Main()
+        try
         {
-            try
-            {
-                // Initialize application configuration (e.g., settings, themes)
-                ApplicationConfiguration.Initialize();
-                System.Windows.Forms.Application.EnableVisualStyles();
-                System.Windows.Forms.Application.SetCompatibleTextRenderingDefault(false);
+            // Initialize application configuration (e.g., settings, themes)
+            ApplicationConfiguration.Initialize();
+            System.Windows.Forms.Application.EnableVisualStyles();
+            System.Windows.Forms.Application.SetCompatibleTextRenderingDefault(false);
 
-                // Configure services and dependencies
-                var serviceProvider = ConfigureServices();
+            // Configure services and dependencies
+            ServiceProvider = ConfigureServices(); // Assign the ServiceProvider to the static property
 
-                // Resolve required services from DI container
-                using var scope = serviceProvider.CreateScope();
-                var noteService = scope.ServiceProvider.GetRequiredService<INoteService>();
-                var categoryService = scope.ServiceProvider.GetRequiredService<ICategoryService>();
-                var userService = scope.ServiceProvider.GetRequiredService<IUserService>();
+            // Resolve required services from DI container
+            using var scope = ServiceProvider.CreateScope();
+            var noteService = scope.ServiceProvider.GetRequiredService<INoteService>();
+            var categoryService = scope.ServiceProvider.GetRequiredService<ICategoryService>();
+            var userService = scope.ServiceProvider.GetRequiredService<IUserService>();
 
-                Console.WriteLine("Services resolved successfully!");
-                var dbContext = serviceProvider.GetRequiredService<ApplicationDbContext>();
+            Console.WriteLine("Services resolved successfully!");
 
-                // Run the application with MainForm and pass the required services
-                System.Windows.Forms.Application.Run(new Form1(userService,noteService,categoryService));
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"An error occurred: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+            // Run the application with Form1 and pass the required services
+            System.Windows.Forms.Application.Run(new Form1(userService, noteService, categoryService));
         }
-
-        // Method to configure all the necessary services for DI
-        private static IServiceProvider ConfigureServices()
+        catch (Exception ex)
         {
-            try
-            {
-                // Set up configuration to read from appsettings.json
-                var configuration = new ConfigurationBuilder()
-                    .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
-                    .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
-                    .Build();
+            MessageBox.Show($"An error occurred: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
+    }
 
-                // Set up DI container (ServiceCollection)
-                var services = new ServiceCollection();
+    // Method to configure all the necessary services for DI
+    private static IServiceProvider ConfigureServices()
+    {
+        try
+        {
+            // Set up configuration to read from appsettings.json
+            var configuration = new ConfigurationBuilder()
+                .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
+                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                .Build();
 
-                // Register IConfiguration
-                services.AddSingleton<IConfiguration>(configuration);
+            // Set up DI container (ServiceCollection)
+            var services = new ServiceCollection();
 
-                // Configure database context with connection string from configuration
-                services.AddDbContext<ApplicationDbContext>(options =>
-                    options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")),
-                    ServiceLifetime.Scoped);
+            // Register IConfiguration
+            services.AddSingleton<IConfiguration>(configuration);
 
-                // Register repositories
-                services.AddScoped<ICategoryRepository, CategoryRepository>();
+            // Configure database context with connection string from configuration
+            services.AddDbContext<ApplicationDbContext>(options =>
+                options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")),
+                ServiceLifetime.Scoped);
 
-                // Register application services
-                services.AddScoped<INoteService, NoteService>();
-                services.AddScoped<ICategoryService, CategoryService>();
-                services.AddScoped<IUserService, UserService>();
+            // Register repositories
+            services.AddScoped<ICategoryRepository, CategoryRepository>();
 
-                // Build and return the service provider
-                return services.BuildServiceProvider();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Service configuration failed: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                throw;
-            }
+            // Register application services
+            services.AddScoped<INoteService, NoteService>();
+            services.AddScoped<ICategoryService, CategoryService>();
+            services.AddScoped<IUserService, UserService>();
+
+            // Register CategorySelector
+            services.AddScoped<CategorySelector>();
+
+            // Build and return the service provider
+            return services.BuildServiceProvider();
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show($"Service configuration failed: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            throw;
         }
     }
 }

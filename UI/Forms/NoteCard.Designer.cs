@@ -91,6 +91,7 @@
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
+            BackColor = SystemColors.GradientActiveCaption;
             Controls.Add(DeleteNoteBtn);
             Controls.Add(EditNoteBtn);
             Controls.Add(ReminderDateLabel);
