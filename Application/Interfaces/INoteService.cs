@@ -11,5 +11,6 @@ namespace DigitalNotesManager.Application.Interfaces
         Task UpdateNoteAsync(NoteDTO noteDto);
         Task DeleteNoteAsync(int id);
         Task AddNoteAsync(Note newNote);
+        Task<IEnumerable<NoteDTO>> SearchNotesAsync(string searchText, int? userId );
     }
 }

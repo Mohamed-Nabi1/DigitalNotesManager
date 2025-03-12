@@ -15,6 +15,7 @@ namespace UI.Forms
         public string noteTitle;
         private string noteContent;
 
+        #region Constructor
         public AlarmForm(string _title, string _content)
         {
             InitializeComponent();
@@ -22,17 +23,23 @@ namespace UI.Forms
             this.noteContent = _content;
             DisplayReminder();
         }
+        #endregion
 
-        private void DisplayReminder()
-        {
-            ReminderTitle.Text = noteTitle;
-            ReminderRichBox.Rtf = noteContent;
-        }
+        #region Display Content Of Note Reminder
+            private void DisplayReminder()
+            {
+                ReminderTitle.Text = noteTitle;
+                ReminderRichBox.Rtf = noteContent;
+            }
+        #endregion
 
+        #region Close Alarm Form
         private void CloseBtn_Click(object sender, EventArgs e)
         {
             this.Close(); 
         }
+
+        #endregion 
     }
 
 }

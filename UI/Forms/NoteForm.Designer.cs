@@ -32,12 +32,12 @@
             richTextBox1 = new RichTextBox();
             ReminderPicker = new DateTimePicker();
             TitleTxt = new TextBox();
-            CategoryComboBox = new ComboBox();
             btnAdd = new Button();
             label1 = new Label();
             label2 = new Label();
             label3 = new Label();
             label4 = new Label();
+            lblCategory = new Label();
             SuspendLayout();
             // 
             // richTextBox1
@@ -45,7 +45,7 @@
             richTextBox1.Location = new Point(10, 108);
             richTextBox1.Margin = new Padding(5, 4, 5, 4);
             richTextBox1.Name = "richTextBox1";
-            richTextBox1.Size = new Size(282, 149);
+            richTextBox1.Size = new Size(408, 232);
             richTextBox1.TabIndex = 0;
             richTextBox1.Text = "";
             // 
@@ -53,10 +53,10 @@
             // 
             ReminderPicker.CalendarForeColor = Color.Maroon;
             ReminderPicker.CalendarTitleForeColor = Color.Maroon;
-            ReminderPicker.Location = new Point(10, 307);
+            ReminderPicker.Location = new Point(12, 395);
             ReminderPicker.Margin = new Padding(5, 4, 5, 4);
             ReminderPicker.Name = "ReminderPicker";
-            ReminderPicker.Size = new Size(282, 31);
+            ReminderPicker.Size = new Size(408, 31);
             ReminderPicker.TabIndex = 2;
             // 
             // TitleTxt
@@ -64,30 +64,20 @@
             TitleTxt.Location = new Point(91, 24);
             TitleTxt.Margin = new Padding(5, 4, 5, 4);
             TitleTxt.Name = "TitleTxt";
-            TitleTxt.Size = new Size(201, 31);
+            TitleTxt.Size = new Size(327, 31);
             TitleTxt.TabIndex = 3;
-            // 
-            // CategoryComboBox
-            // 
-            CategoryComboBox.Font = new Font("Segoe UI Symbol", 10.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            CategoryComboBox.FormattingEnabled = true;
-            CategoryComboBox.Location = new Point(10, 393);
-            CategoryComboBox.Margin = new Padding(5, 4, 5, 4);
-            CategoryComboBox.Name = "CategoryComboBox";
-            CategoryComboBox.Size = new Size(282, 33);
-            CategoryComboBox.TabIndex = 4;
             // 
             // btnAdd
             // 
             btnAdd.BackColor = Color.DarkCyan;
             btnAdd.Font = new Font("Segoe UI Symbol", 10.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnAdd.ForeColor = Color.White;
-            btnAdd.Location = new Point(27, 454);
+            btnAdd.Location = new Point(30, 541);
             btnAdd.Margin = new Padding(3, 4, 3, 4);
             btnAdd.Name = "btnAdd";
-            btnAdd.Size = new Size(254, 33);
+            btnAdd.Size = new Size(351, 42);
             btnAdd.TabIndex = 5;
-            btnAdd.Text = "ADD";
+            btnAdd.Text = "ADD NOTE";
             btnAdd.UseVisualStyleBackColor = false;
             btnAdd.Click += btnAdd_Click;
             // 
@@ -118,7 +108,7 @@
             label3.AutoSize = true;
             label3.Font = new Font("Segoe UI Symbol", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label3.ForeColor = Color.DarkCyan;
-            label3.Location = new Point(10, 272);
+            label3.Location = new Point(12, 360);
             label3.Name = "label3";
             label3.Size = new Size(180, 31);
             label3.TabIndex = 8;
@@ -129,24 +119,34 @@
             label4.AutoSize = true;
             label4.Font = new Font("Segoe UI Symbol", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label4.ForeColor = Color.DarkCyan;
-            label4.Location = new Point(10, 358);
+            label4.Location = new Point(12, 446);
             label4.Name = "label4";
-            label4.Size = new Size(114, 31);
+            label4.Size = new Size(134, 31);
             label4.TabIndex = 9;
-            label4.Text = "Category";
+            label4.Text = "Category : ";
+            // 
+            // lblCategory
+            // 
+            lblCategory.AutoSize = true;
+            lblCategory.BackColor = Color.Transparent;
+            lblCategory.Font = new Font("Segoe UI Symbol", 13.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lblCategory.Location = new Point(152, 446);
+            lblCategory.Name = "lblCategory";
+            lblCategory.Size = new Size(0, 31);
+            lblCategory.TabIndex = 10;
             // 
             // NoteForm
             // 
             AutoScaleDimensions = new SizeF(11F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.LightBlue;
-            ClientSize = new Size(320, 535);
+            ClientSize = new Size(432, 586);
+            Controls.Add(lblCategory);
             Controls.Add(label4);
             Controls.Add(label3);
             Controls.Add(label2);
             Controls.Add(label1);
             Controls.Add(btnAdd);
-            Controls.Add(CategoryComboBox);
             Controls.Add(TitleTxt);
             Controls.Add(ReminderPicker);
             Controls.Add(richTextBox1);
@@ -166,11 +166,11 @@
         private RichTextBox richTextBox1;
         private DateTimePicker ReminderPicker;
         private TextBox TitleTxt;
-        private ComboBox CategoryComboBox;
         private Button btnAdd;
         private Label label1;
         private Label label2;
         private Label label3;
         private Label label4;
+        private Label lblCategory;
     }
 }
