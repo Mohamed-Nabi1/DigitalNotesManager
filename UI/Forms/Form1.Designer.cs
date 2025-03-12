@@ -34,6 +34,8 @@
             emailTxtBox = new TextBox();
             label2 = new Label();
             label1 = new Label();
+            registerBtn = new Button();
+            validationMsgLabel = new Label();
             SuspendLayout();
             // 
             // LoginBtn
@@ -90,17 +92,44 @@
             label1.AutoSize = true;
             label1.Font = new Font("Segoe Print", 24F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label1.ForeColor = Color.SeaGreen;
-            label1.Location = new Point(105, 66);
+            label1.Location = new Point(108, 55);
             label1.Name = "label1";
             label1.Size = new Size(111, 56);
             label1.TabIndex = 18;
             label1.Text = "LogIn";
+            // 
+            // registerBtn
+            // 
+            registerBtn.BackColor = Color.White;
+            registerBtn.Font = new Font("Segoe UI", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            registerBtn.ForeColor = Color.Black;
+            registerBtn.Location = new Point(61, 343);
+            registerBtn.Name = "registerBtn";
+            registerBtn.Size = new Size(232, 37);
+            registerBtn.TabIndex = 24;
+            registerBtn.Text = "Register";
+            registerBtn.UseVisualStyleBackColor = false;
+            registerBtn.Click += registerBtn_Click;
+            // 
+            // validationMsgLabel
+            // 
+            validationMsgLabel.AutoSize = true;
+            validationMsgLabel.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            validationMsgLabel.ForeColor = Color.Red;
+            validationMsgLabel.Location = new Point(64, 256);
+            validationMsgLabel.Name = "validationMsgLabel";
+            validationMsgLabel.Size = new Size(74, 21);
+            validationMsgLabel.TabIndex = 25;
+            validationMsgLabel.Text = "                ";
+            validationMsgLabel.TextAlign = ContentAlignment.TopCenter;
             // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(337, 450);
+            Controls.Add(validationMsgLabel);
+            Controls.Add(registerBtn);
             Controls.Add(LoginBtn);
             Controls.Add(passwordTxtBox);
             Controls.Add(label3);
@@ -122,5 +151,7 @@
         private TextBox emailTxtBox;
         private Label label2;
         private Label label1;
+        private Button registerBtn;
+        private Label validationMsgLabel;
     }
 }

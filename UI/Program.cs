@@ -36,9 +36,10 @@ namespace UI
                 var userService = scope.ServiceProvider.GetRequiredService<IUserService>();
 
                 Console.WriteLine("Services resolved successfully!");
+                var dbContext = serviceProvider.GetRequiredService<ApplicationDbContext>();
 
                 // Run the application with MainForm and pass the required services
-                System.Windows.Forms.Application.Run(new MainForm(noteService, categoryService));
+                System.Windows.Forms.Application.Run(new Form1(userService,noteService,categoryService));
             }
             catch (Exception ex)
             {
