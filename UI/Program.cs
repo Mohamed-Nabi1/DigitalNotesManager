@@ -39,7 +39,7 @@ internal static class Program
             Console.WriteLine("Services resolved successfully!");
 
             // Run the application with Form1 and pass the required services
-            System.Windows.Forms.Application.Run(new Form1(userService, noteService, categoryService));
+            System.Windows.Forms.Application.Run(new LoginForm(userService, noteService, categoryService));
         }
         catch (Exception ex)
         {

@@ -16,13 +16,15 @@ using UI.Forms;
 
 namespace UIPresentation
 {
-    public partial class Form2 : Form
+    public partial class RegistrationForm : Form
     {
         private readonly IUserService _userService;
         INoteService _noteService;
         ICategoryService _categoryService;
-        public Form2(IUserService userService)
+        public RegistrationForm(IUserService userService,INoteService noteService,ICategoryService categoryService)
         {
+            _noteService= noteService;
+            _categoryService= categoryService;
             _userService = userService;
             InitializeComponent();
         }
@@ -42,7 +44,7 @@ namespace UIPresentation
 
                 await _userService.AddUserAsync(userDTO);
 
-                Form1 login = new Form1(_userService);
+                LoginForm login = new LoginForm(_userService, _noteService, _categoryService);
                 this.Hide();
                 login.ShowDialog();
             }

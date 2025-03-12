@@ -16,8 +16,8 @@ namespace UI.Forms
 {
     public partial class MainForm : Form
     {
-        INoteService _noteService;
-        ICategoryService _categoryService;
+        private readonly INoteService _noteService;
+        private readonly ICategoryService _categoryService;
         int idUser;
 
         #region Constructor
