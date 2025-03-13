@@ -117,7 +117,7 @@ namespace UI.Forms
                 string contentInFile = File.ReadAllText(openFile.FileName);
                 NoteForm notepadForm = new NoteForm(idUser, this, ParentPanel, gridView, _noteService, _categoryService);
                 notepadForm.MdiParent = this;
-                notepadForm.DisplayFileContent(contentInFile);
+                notepadForm.displayContent(contentInFile);
                 notepadForm.Show();
             }
         }
@@ -126,10 +126,14 @@ namespace UI.Forms
         {
             if (this.ActiveMdiChild is NoteForm activeNote)
             {
-                SaveFileDialog savedFile = new SaveFileDialog();
-                if (savedFile.ShowDialog() == DialogResult.OK)
+                using (SaveFileDialog savedFile = new SaveFileDialog { Filter = "RTF Files (*.rtf)|*.rtf|Text Files (*.txt)|*.txt" })
                 {
-                    File.WriteAllText(savedFile.FileName, activeNote.GetFileContent());
+                    if (savedFile.ShowDialog() == DialogResult.OK)
+                    {
+                        File.WriteAllText(savedFile.FileName, savedFile.FileName.EndsWith(".rtf")? activeNote.getRtfContent(): activeNote.getContent());
+                            
+                            
+                    }
                 }
             }
         }
@@ -147,7 +151,7 @@ namespace UI.Forms
         {
             if (this.ActiveMdiChild is NoteForm activeNote)
             {
-                activeNote.GetRichTextBox()?.Cut();
+                activeNote.getRichTextBox()?.Cut();
             }
         }
 
@@ -155,7 +159,7 @@ namespace UI.Forms
         {
             if (this.ActiveMdiChild is NoteForm activeNote)
             {
-                activeNote.GetRichTextBox()?.Copy();
+                activeNote.getRichTextBox()?.Copy();
             }
         }
 
@@ -163,7 +167,7 @@ namespace UI.Forms
         {
             if (this.ActiveMdiChild is NoteForm activeNote)
             {
-                activeNote.GetRichTextBox()?.Paste();
+                activeNote.getRichTextBox()?.Paste();
             }
         }
 

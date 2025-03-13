@@ -305,19 +305,23 @@ namespace UI.Forms
 
 
         #region Return Data From File
-        public void DisplayFileContent(string contentInFile)
+        public void displayContent(string contentInFile)
         {
             richTextBox1.Text = contentInFile;
         }
 
-        public string GetFileContent()
+        public string getContent()
         {
             return richTextBox1.Text;
         }
 
-        public RichTextBox GetRichTextBox()
+        public RichTextBox getRichTextBox()
         {
             return richTextBox1;
+        }
+        public string getRtfContent()
+        {
+            return richTextBox1.Rtf; 
         }
         #endregion
 
