@@ -42,11 +42,18 @@ namespace UIPresentation
                 var username = UserNameTxtBox.Text;
                 UserDTO userDTO = new UserDTO() { Email=email,Password=password,Username=username};
 
-                await _userService.AddUserAsync(userDTO);
+                bool isRegistered = await _userService.RegisterUserAsync(userDTO);
 
-                LoginForm login = new LoginForm(_userService, _noteService, _categoryService);
-                this.Hide();
-                login.ShowDialog();
+                if (isRegistered)
+                {
+                    LoginForm login = new LoginForm(_userService, _noteService, _categoryService);
+                    this.Hide();
+                    login.ShowDialog();
+                }
+                else
+                {
+                    MessageBox.Show("Username already exists.");
+                }
             }
             
         }

@@ -1,6 +1,7 @@
 using Application.Interfaces;
 using DigitalNotesManager.Application.Interfaces;
 using UIPresentation;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 namespace UI.Forms
 {
     public partial class LoginForm : Form
@@ -31,10 +32,12 @@ namespace UI.Forms
 
             var email = emailTxtBox.Text;
             var password = passwordTxtBox.Text;
-            var userList = await _userService.GetAllUsersAsync();
-            var user = userList.ToList().Find(xx => xx.Email == email && xx.Password == password);
-            if (user != null)
+            bool isAuthenticated = await _userService.AuthenticateUserAsync(email, password);
+
+            if (isAuthenticated)
             {
+                var userList = await _userService.GetAllUsersAsync();
+                var user = userList.ToList().Find(xx => xx.Email == email );
                 MainForm mainform = new MainForm(user.Id, _noteService, _categoryService);
                 this.Hide();
                 mainform.ShowDialog();

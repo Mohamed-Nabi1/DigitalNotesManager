@@ -1,8 +1,10 @@
 ﻿using DigitalNotesManager.Application.DTOs;
 using DigitalNotesManager.Application.Interfaces;
+using DigitalNotesManager.Application.Utilities; 
 using Domain.Entities;
 using Infrastructure.Context;
 using Microsoft.EntityFrameworkCore;
+using System.Threading.Tasks;
 
 namespace DigitalNotesManager.Application.Services
 {
@@ -69,6 +71,33 @@ namespace DigitalNotesManager.Application.Services
 
             _context.Users.Remove(user);
             await _context.SaveChangesAsync();
+        }
+
+        public async Task<bool> RegisterUserAsync(UserDTO userDto)
+        {
+            if (await _context.Users.AnyAsync(u => u.Username == userDto.Username))
+                return false;
+
+            string hashedPassword = PasswordHasher.HashPassword(userDto.Password);
+
+            var user = new User
+            {
+                Username = userDto.Username,
+                Email = userDto.Email,
+                Password = hashedPassword
+            };
+
+            _context.Users.Add(user);
+            await _context.SaveChangesAsync();
+            return true;
+        }
+
+        public async Task<bool> AuthenticateUserAsync(string email, string password)
+        {
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == email);
+            if (user == null) return false;
+
+            return PasswordHasher.VerifyPassword(password, user.Password);
         }
     }
 }

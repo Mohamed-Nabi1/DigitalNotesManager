@@ -1,4 +1,6 @@
 ﻿using DigitalNotesManager.Application.DTOs;
+using DigitalNotesManager.Application.Utilities;
+using Microsoft.EntityFrameworkCore;
 
 namespace DigitalNotesManager.Application.Interfaces
 {
@@ -9,5 +11,10 @@ namespace DigitalNotesManager.Application.Interfaces
         Task AddUserAsync(UserDTO userDto);
         Task UpdateUserAsync(UserDTO userDto);
         Task DeleteUserAsync(int id);
+        Task<bool> RegisterUserAsync(UserDTO userDto);
+
+
+        Task<bool> AuthenticateUserAsync(string email, string password);
+        
     }
 }
