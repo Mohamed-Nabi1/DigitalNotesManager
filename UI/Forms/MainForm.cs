@@ -35,7 +35,7 @@ namespace UI.Forms
         #endregion
 
         #region  Load Data into GridView And CardNote
-        private async Task LoadContent()
+        public async Task LoadContent()
         {
             
             await LoadNotesInPanel();
@@ -68,7 +68,6 @@ namespace UI.Forms
                 n.ReminderDate,
                 n.CreatedDate,
                 n.CategoryId,
-                n.Content,
                 n.UserId
             }).ToList();
         }
@@ -294,6 +293,7 @@ namespace UI.Forms
             {
                 foreach (var note in reminderNotes)
                 {
+                    
                     AlarmForm alarm = new AlarmForm(note.Title, note.Content);
                     alarm.Show();
                     shownNoteIds.Add(note.Id);
@@ -301,9 +301,10 @@ namespace UI.Forms
             }
             else
             {
-                MessageBox.Show("No Reminders Note");
+                MessageBox.Show("No Reminder Notes");
             }
         }
+
 
 
         #endregion
@@ -336,7 +337,7 @@ namespace UI.Forms
                 n.Title,
                 n.ReminderDate,
                 n.CreatedDate,
-                n.CategoryId,n.Content,
+                n.CategoryId,
                 n.UserId
             }).ToList();
         }
@@ -383,15 +384,49 @@ namespace UI.Forms
                     }).ToList();
                 }
 
-                private void MainForm_Load(object sender, EventArgs e)
+                private async void MainForm_Load(object sender, EventArgs e)
                 {
                     sortComboBox.Items.AddRange(new[] { "Title", "Reminder Date", "Created Date" });
 
                     sortComboBox.SelectedIndex = 0;
                     sortComboBox.SelectedIndexChanged += SortButton_Click;
-                }
+
+                     await LoadCategories();
+                 }
 
         #endregion
+
+
+
+        #region Load Categories
+        private async Task LoadCategories()
+        {
+            try
+            {
+                var categories = await _categoryService.GetAllCategoriesAsync();
+
+                if (categories != null && categories.Any())
+                {
+                    comboBox1.DataSource = categories;
+                    comboBox1.DisplayMember = "Name";
+                    comboBox1.ValueMember = "Id";
+                }
+                else
+                {
+                    MessageBox.Show("There are no categories available!", "Alert", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"An error event while downloading categories:\n{ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        #endregion
+
+
+ 
+       
 
     }
 

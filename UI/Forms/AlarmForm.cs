@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace UI.Forms
 {
@@ -24,22 +25,40 @@ namespace UI.Forms
             DisplayReminder();
         }
         #endregion
-
         #region Display Content Of Note Reminder
-            private void DisplayReminder()
+        private void DisplayReminder()
+        {
+            ReminderTitle.Text = noteTitle;
+            if (noteContent.StartsWith(@"{\rtf"))
             {
-                ReminderTitle.Text = noteTitle;
                 ReminderRichBox.Rtf = noteContent;
             }
+            else
+            {
+                ReminderRichBox.Text = noteContent;
+            }
+
+            ReminderRichBox.Visible = true;
+
+
+        }
         #endregion
 
         #region Close Alarm Form
         private void CloseBtn_Click(object sender, EventArgs e)
         {
-            this.Close(); 
+            this.Close();
         }
 
-        #endregion 
-    }
 
+
+        #endregion
+        private void ReminderRichBox_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+    }
 }
+
+

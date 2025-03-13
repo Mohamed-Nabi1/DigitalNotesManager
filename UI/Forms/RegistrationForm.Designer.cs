@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(RegistrationForm));
             RegiserBtn = new Button();
             passwordTxtBox = new TextBox();
             label3 = new Label();
@@ -37,16 +38,18 @@
             emailTxtBox = new TextBox();
             label4 = new Label();
             validationMsgLabel = new Label();
+            panel1 = new Panel();
             SuspendLayout();
             // 
             // RegiserBtn
             // 
-            RegiserBtn.BackColor = Color.SeaGreen;
-            RegiserBtn.Font = new Font("Segoe UI", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            RegiserBtn.BackColor = Color.DarkCyan;
+            RegiserBtn.Font = new Font("Segoe Print", 18F);
             RegiserBtn.ForeColor = Color.White;
-            RegiserBtn.Location = new Point(57, 320);
+            RegiserBtn.Location = new Point(1053, 589);
+            RegiserBtn.Margin = new Padding(3, 4, 3, 4);
             RegiserBtn.Name = "RegiserBtn";
-            RegiserBtn.Size = new Size(232, 37);
+            RegiserBtn.Size = new Size(368, 62);
             RegiserBtn.TabIndex = 4;
             RegiserBtn.Text = "Register";
             RegiserBtn.UseVisualStyleBackColor = false;
@@ -54,86 +57,109 @@
             // 
             // passwordTxtBox
             // 
-            passwordTxtBox.Location = new Point(139, 238);
+            passwordTxtBox.Font = new Font("Segoe UI Symbol", 12F, FontStyle.Bold);
+            passwordTxtBox.Location = new Point(1135, 440);
+            passwordTxtBox.Margin = new Padding(3, 4, 3, 4);
             passwordTxtBox.Name = "passwordTxtBox";
-            passwordTxtBox.Size = new Size(176, 23);
+            passwordTxtBox.Size = new Size(319, 34);
             passwordTxtBox.TabIndex = 3;
             // 
             // label3
             // 
             label3.AutoSize = true;
-            label3.Font = new Font("Segoe Print", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label3.ForeColor = Color.SeaGreen;
-            label3.Location = new Point(27, 238);
+            label3.BackColor = Color.Transparent;
+            label3.Font = new Font("Segoe Print", 18F);
+            label3.ForeColor = Color.DarkCyan;
+            label3.Location = new Point(886, 429);
             label3.Name = "label3";
-            label3.Size = new Size(93, 28);
+            label3.Size = new Size(174, 52);
             label3.TabIndex = 27;
             label3.Text = "Password:";
             // 
             // UserNameTxtBox
             // 
-            UserNameTxtBox.Location = new Point(139, 147);
+            UserNameTxtBox.Font = new Font("Segoe UI Symbol", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            UserNameTxtBox.Location = new Point(1135, 286);
+            UserNameTxtBox.Margin = new Padding(3, 4, 3, 4);
             UserNameTxtBox.Name = "UserNameTxtBox";
-            UserNameTxtBox.Size = new Size(176, 23);
+            UserNameTxtBox.Size = new Size(319, 34);
             UserNameTxtBox.TabIndex = 1;
             // 
             // label2
             // 
             label2.AutoSize = true;
-            label2.Font = new Font("Segoe Print", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label2.ForeColor = Color.SeaGreen;
-            label2.Location = new Point(27, 142);
+            label2.BackColor = Color.Transparent;
+            label2.Font = new Font("Segoe Print", 18F);
+            label2.ForeColor = Color.DarkCyan;
+            label2.Location = new Point(879, 268);
             label2.Name = "label2";
-            label2.Size = new Size(110, 28);
+            label2.Size = new Size(209, 52);
             label2.TabIndex = 25;
             label2.Text = "UserBName:";
             // 
             // label1
             // 
             label1.AutoSize = true;
-            label1.Font = new Font("Segoe Print", 24F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label1.ForeColor = Color.SeaGreen;
-            label1.Location = new Point(105, 31);
+            label1.BackColor = Color.Transparent;
+            label1.Font = new Font("Segoe Print", 48F, FontStyle.Bold);
+            label1.ForeColor = Color.DarkCyan;
+            label1.Location = new Point(1000, 42);
             label1.Name = "label1";
-            label1.Size = new Size(153, 56);
+            label1.Size = new Size(381, 141);
             label1.TabIndex = 24;
             label1.Text = "Register";
             // 
             // emailTxtBox
             // 
-            emailTxtBox.Location = new Point(139, 196);
+            emailTxtBox.Font = new Font("Segoe UI Symbol", 12F, FontStyle.Bold);
+            emailTxtBox.Location = new Point(1135, 366);
+            emailTxtBox.Margin = new Padding(3, 4, 3, 4);
             emailTxtBox.Name = "emailTxtBox";
-            emailTxtBox.Size = new Size(176, 23);
+            emailTxtBox.Size = new Size(319, 34);
             emailTxtBox.TabIndex = 2;
             // 
             // label4
             // 
             label4.AutoSize = true;
-            label4.Font = new Font("Segoe Print", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label4.ForeColor = Color.SeaGreen;
-            label4.Location = new Point(27, 191);
+            label4.BackColor = Color.Transparent;
+            label4.Font = new Font("Segoe Print", 18F);
+            label4.ForeColor = Color.DarkCyan;
+            label4.Location = new Point(879, 355);
             label4.Name = "label4";
-            label4.Size = new Size(63, 28);
+            label4.Size = new Size(119, 52);
             label4.TabIndex = 30;
             label4.Text = "Email:";
             // 
             // validationMsgLabel
             // 
             validationMsgLabel.AutoSize = true;
+            validationMsgLabel.BackColor = Color.Transparent;
             validationMsgLabel.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            validationMsgLabel.ForeColor = Color.Red;
-            validationMsgLabel.Location = new Point(57, 282);
+            validationMsgLabel.ForeColor = Color.White;
+            validationMsgLabel.Location = new Point(1000, 513);
             validationMsgLabel.Name = "validationMsgLabel";
-            validationMsgLabel.Size = new Size(74, 21);
+            validationMsgLabel.Size = new Size(92, 28);
             validationMsgLabel.TabIndex = 32;
             validationMsgLabel.Text = "                ";
             validationMsgLabel.TextAlign = ContentAlignment.TopCenter;
             // 
+            // panel1
+            // 
+            panel1.BackColor = Color.Transparent;
+            panel1.BackgroundImage = (Image)resources.GetObject("panel1.BackgroundImage");
+            panel1.BackgroundImageLayout = ImageLayout.Stretch;
+            panel1.Location = new Point(1, 1);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(684, 804);
+            panel1.TabIndex = 33;
+            // 
             // RegistrationForm
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(354, 461);
+            BackgroundImage = (Image)resources.GetObject("$this.BackgroundImage");
+            ClientSize = new Size(1579, 724);
+            Controls.Add(panel1);
             Controls.Add(validationMsgLabel);
             Controls.Add(emailTxtBox);
             Controls.Add(label4);
@@ -143,6 +169,10 @@
             Controls.Add(UserNameTxtBox);
             Controls.Add(label2);
             Controls.Add(label1);
+            Icon = (Icon)resources.GetObject("$this.Icon");
+            Margin = new Padding(3, 4, 3, 4);
+            MaximumSize = new Size(1597, 771);
+            MinimumSize = new Size(1597, 771);
             Name = "RegistrationForm";
             Text = "Registration";
             Load += Form2_Load;
@@ -161,5 +191,6 @@
         private TextBox emailTxtBox;
         private Label label4;
         private Label validationMsgLabel;
+        private Panel panel1;
     }
 }

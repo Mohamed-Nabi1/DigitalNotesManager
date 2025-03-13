@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AlarmForm));
             label1 = new Label();
             CloseBtn = new Button();
             panel1 = new Panel();
@@ -75,7 +76,7 @@
             // 
             ReminderTitle.AutoSize = true;
             ReminderTitle.Font = new Font("Segoe UI Symbol", 13.8F, FontStyle.Bold);
-            ReminderTitle.Location = new Point(142, 79);
+            ReminderTitle.Location = new Point(88, 75);
             ReminderTitle.Name = "ReminderTitle";
             ReminderTitle.Size = new Size(0, 31);
             ReminderTitle.TabIndex = 11;
@@ -83,11 +84,13 @@
             // ReminderRichBox
             // 
             ReminderRichBox.BackColor = SystemColors.ButtonFace;
-            ReminderRichBox.Location = new Point(47, 130);
+            ReminderRichBox.Font = new Font("Segoe UI Symbol", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            ReminderRichBox.Location = new Point(42, 122);
             ReminderRichBox.Name = "ReminderRichBox";
             ReminderRichBox.Size = new Size(216, 72);
             ReminderRichBox.TabIndex = 12;
             ReminderRichBox.Text = "";
+            ReminderRichBox.TextChanged += ReminderRichBox_TextChanged;
             // 
             // AlarmForm
             // 
@@ -99,6 +102,7 @@
             Controls.Add(ReminderTitle);
             Controls.Add(panel1);
             Controls.Add(CloseBtn);
+            Icon = (Icon)resources.GetObject("$this.Icon");
             MaximumSize = new Size(336, 325);
             MinimumSize = new Size(336, 325);
             Name = "AlarmForm";

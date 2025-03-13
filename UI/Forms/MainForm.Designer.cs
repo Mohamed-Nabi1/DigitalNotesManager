@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
-            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
             menuStrip1 = new MenuStrip();
             fileToolStripMenuItem = new ToolStripMenuItem();
             newToolStripMenuItem = new ToolStripMenuItem();
@@ -73,7 +73,7 @@
             menuStrip1.Items.AddRange(new ToolStripItem[] { fileToolStripMenuItem, pastToolStripMenuItem, viewToolStripMenuItem, aboutToolStripMenuItem });
             menuStrip1.Location = new Point(0, 0);
             menuStrip1.Name = "menuStrip1";
-            menuStrip1.Size = new Size(1336, 31);
+            menuStrip1.Size = new Size(1579, 31);
             menuStrip1.TabIndex = 0;
             menuStrip1.Text = "menuStrip1";
             // 
@@ -220,11 +220,11 @@
             // ParentPanel
             // 
             ParentPanel.AutoScroll = true;
-            ParentPanel.BackColor = SystemColors.ButtonFace;
+            ParentPanel.BackColor = Color.LightBlue;
             ParentPanel.FlowDirection = FlowDirection.TopDown;
-            ParentPanel.Location = new Point(491, 115);
+            ParentPanel.Location = new Point(526, 105);
             ParentPanel.Name = "ParentPanel";
-            ParentPanel.Size = new Size(334, 520);
+            ParentPanel.Size = new Size(334, 581);
             ParentPanel.TabIndex = 1;
             ParentPanel.WrapContents = false;
             // 
@@ -233,9 +233,9 @@
             button1.BackColor = SystemColors.ControlLight;
             button1.BackgroundImage = (Image)resources.GetObject("button1.BackgroundImage");
             button1.BackgroundImageLayout = ImageLayout.Zoom;
-            button1.Location = new Point(1261, 196);
+            button1.Location = new Point(1479, 215);
             button1.Name = "button1";
-            button1.Size = new Size(49, 45);
+            button1.Size = new Size(68, 59);
             button1.TabIndex = 2;
             button1.UseVisualStyleBackColor = false;
             button1.Click += newToolStripMenuItem_Click;
@@ -245,30 +245,31 @@
             alarmBtn.BackColor = SystemColors.ControlLight;
             alarmBtn.BackgroundImage = (Image)resources.GetObject("alarmBtn.BackgroundImage");
             alarmBtn.BackgroundImageLayout = ImageLayout.Zoom;
-            alarmBtn.Location = new Point(1261, 115);
+            alarmBtn.Location = new Point(1479, 120);
             alarmBtn.Name = "alarmBtn";
-            alarmBtn.Size = new Size(49, 45);
+            alarmBtn.Size = new Size(68, 58);
             alarmBtn.TabIndex = 3;
             alarmBtn.UseVisualStyleBackColor = false;
             alarmBtn.Click += alarmBtn_Click;
             // 
             // gridView
             // 
-            gridView.BackgroundColor = SystemColors.ButtonFace;
-            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = SystemColors.Control;
-            dataGridViewCellStyle1.Font = new Font("Segoe UI", 9F);
-            dataGridViewCellStyle1.ForeColor = SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = Color.DarkCyan;
-            dataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
-            gridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            gridView.BackgroundColor = Color.LightBlue;
+            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = SystemColors.Control;
+            dataGridViewCellStyle2.Font = new Font("Segoe UI", 9F);
+            dataGridViewCellStyle2.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle2.SelectionBackColor = Color.DarkCyan;
+            dataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
+            gridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
             gridView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             gridView.GridColor = Color.DarkCyan;
-            gridView.Location = new Point(854, 295);
+            gridView.Location = new Point(908, 346);
+            gridView.MinimumSize = new Size(620, 340);
             gridView.Name = "gridView";
             gridView.RowHeadersWidth = 51;
-            gridView.Size = new Size(456, 340);
+            gridView.Size = new Size(639, 340);
             gridView.TabIndex = 4;
             gridView.CellContentClick += gridView_CellContentClick;
             // 
@@ -277,18 +278,18 @@
             comboBox1.BackColor = SystemColors.ButtonFace;
             comboBox1.Font = new Font("Segoe UI Symbol", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             comboBox1.FormattingEnabled = true;
-            comboBox1.Location = new Point(854, 158);
+            comboBox1.Location = new Point(908, 186);
             comboBox1.Name = "comboBox1";
-            comboBox1.Size = new Size(377, 36);
+            comboBox1.Size = new Size(505, 36);
             comboBox1.TabIndex = 5;
             // 
             // searchBox
             // 
             searchBox.BackColor = SystemColors.ButtonFace;
             searchBox.Font = new Font("Segoe UI Symbol", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            searchBox.Location = new Point(854, 228);
+            searchBox.Location = new Point(908, 269);
             searchBox.Name = "searchBox";
-            searchBox.Size = new Size(309, 34);
+            searchBox.Size = new Size(387, 34);
             searchBox.TabIndex = 6;
             // 
             // SearchButton
@@ -296,9 +297,9 @@
             SearchButton.BackColor = SystemColors.ControlLight;
             SearchButton.BackgroundImage = (Image)resources.GetObject("SearchButton.BackgroundImage");
             SearchButton.BackgroundImageLayout = ImageLayout.Zoom;
-            SearchButton.Location = new Point(1169, 228);
+            SearchButton.Location = new Point(1317, 269);
             SearchButton.Name = "SearchButton";
-            SearchButton.Size = new Size(62, 34);
+            SearchButton.Size = new Size(96, 34);
             SearchButton.TabIndex = 7;
             SearchButton.UseVisualStyleBackColor = false;
             SearchButton.Click += SearchButton_Click;
@@ -308,9 +309,9 @@
             SortButton.BackColor = SystemColors.ControlLight;
             SortButton.BackgroundImage = (Image)resources.GetObject("SortButton.BackgroundImage");
             SortButton.BackgroundImageLayout = ImageLayout.Zoom;
-            SortButton.Location = new Point(1169, 77);
+            SortButton.Location = new Point(1317, 105);
             SortButton.Name = "SortButton";
-            SortButton.Size = new Size(62, 36);
+            SortButton.Size = new Size(96, 36);
             SortButton.TabIndex = 8;
             SortButton.UseVisualStyleBackColor = false;
             SortButton.Click += SortButton_Click;
@@ -319,9 +320,9 @@
             // 
             sortComboBox.Font = new Font("Segoe UI Symbol", 12F, FontStyle.Bold);
             sortComboBox.FormattingEnabled = true;
-            sortComboBox.Location = new Point(854, 77);
+            sortComboBox.Location = new Point(908, 105);
             sortComboBox.Name = "sortComboBox";
-            sortComboBox.Size = new Size(309, 36);
+            sortComboBox.Size = new Size(387, 36);
             sortComboBox.TabIndex = 9;
             // 
             // MainForm
@@ -330,7 +331,7 @@
             BackColor = SystemColors.ButtonHighlight;
             BackgroundImage = (Image)resources.GetObject("$this.BackgroundImage");
             BackgroundImageLayout = ImageLayout.Center;
-            ClientSize = new Size(1336, 698);
+            ClientSize = new Size(1579, 724);
             Controls.Add(sortComboBox);
             Controls.Add(SortButton);
             Controls.Add(SearchButton);
@@ -344,8 +345,8 @@
             ForeColor = Color.Maroon;
             Icon = (Icon)resources.GetObject("$this.Icon");
             MainMenuStrip = menuStrip1;
-            MaximumSize = new Size(1354, 745);
-            MinimumSize = new Size(1354, 745);
+            MaximumSize = new Size(1597, 771);
+            MinimumSize = new Size(1597, 771);
             Name = "MainForm";
             Text = "Digital Note Manger";
             TransparencyKey = Color.White;
