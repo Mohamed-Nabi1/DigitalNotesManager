@@ -36,7 +36,7 @@ namespace DigitalNotesManager.Application.Services
                     UserId = n.UserId,
                     CategoryId = n.CategoryId ?? 0,
                 })
-                .ToListAsync() ?? new List<NoteDTO>();
+                .ToListAsync() ;
 
 
         }

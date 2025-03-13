@@ -44,24 +44,24 @@
             // label2
             // 
             label2.AutoSize = true;
-            label2.Font = new Font("Segoe UI Symbol", 16.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label2.Font = new Font("Segoe UI Symbol", 16.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label2.ForeColor = Color.DarkCyan;
             label2.Location = new Point(13, 189);
             label2.Margin = new Padding(5, 0, 5, 0);
             label2.Name = "label2";
-            label2.Size = new Size(126, 38);
+            label2.Size = new Size(118, 38);
             label2.TabIndex = 1;
             label2.Text = "Phone : ";
             // 
             // label3
             // 
             label3.AutoSize = true;
-            label3.Font = new Font("Segoe UI Symbol", 16.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label3.Font = new Font("Segoe UI Symbol", 16.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label3.ForeColor = Color.DarkCyan;
             label3.Location = new Point(14, 106);
             label3.Margin = new Padding(5, 0, 5, 0);
             label3.Name = "label3";
-            label3.Size = new Size(114, 38);
+            label3.Size = new Size(107, 38);
             label3.TabIndex = 2;
             label3.Text = "Team : ";
             // 
@@ -80,32 +80,34 @@
             // label4
             // 
             label4.AutoSize = true;
+            label4.Font = new Font("Segoe UI Symbol", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label4.Location = new Point(206, 115);
             label4.Margin = new Padding(5, 0, 5, 0);
             label4.Name = "label4";
-            label4.Size = new Size(27, 31);
+            label4.Size = new Size(23, 28);
             label4.TabIndex = 4;
             label4.Text = "8";
             // 
             // label5
             // 
             label5.AutoSize = true;
+            label5.Font = new Font("Segoe UI Symbol", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label5.Location = new Point(149, 194);
             label5.Margin = new Padding(5, 0, 5, 0);
             label5.Name = "label5";
-            label5.Size = new Size(144, 31);
+            label5.Size = new Size(122, 28);
             label5.TabIndex = 5;
             label5.Text = "0123456789";
             // 
             // label6
             // 
             label6.AutoSize = true;
-            label6.Font = new Font("Segoe UI Symbol", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label6.Font = new Font("Segoe UI Symbol", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label6.ForeColor = Color.DarkCyan;
             label6.Location = new Point(14, 281);
             label6.Margin = new Padding(5, 0, 5, 0);
             label6.Name = "label6";
-            label6.Size = new Size(303, 31);
+            label6.Size = new Size(264, 28);
             label6.TabIndex = 6;
             label6.Text = "Summary Of Our Project : ";
             // 
@@ -113,7 +115,7 @@
             // 
             richTextBox1.BackColor = SystemColors.ButtonFace;
             richTextBox1.BorderStyle = BorderStyle.None;
-            richTextBox1.Font = new Font("Segoe UI Symbol", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            richTextBox1.Font = new Font("Segoe UI Symbol", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             richTextBox1.Location = new Point(47, 333);
             richTextBox1.Margin = new Padding(5);
             richTextBox1.MaximumSize = new Size(503, 75);
@@ -138,9 +140,9 @@
             panel2.BackColor = Color.Transparent;
             panel2.BackgroundImage = (Image)resources.GetObject("panel2.BackgroundImage");
             panel2.BackgroundImageLayout = ImageLayout.Zoom;
-            panel2.Location = new Point(378, 133);
+            panel2.Location = new Point(348, 133);
             panel2.Name = "panel2";
-            panel2.Size = new Size(172, 142);
+            panel2.Size = new Size(202, 142);
             panel2.TabIndex = 10;
             // 
             // AboutForm

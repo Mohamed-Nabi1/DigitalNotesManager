@@ -438,8 +438,9 @@ namespace UI.Forms
         {
             if (_mainForm != null)
             {
-                await _mainForm.LoadNotesInGrid(gridView);
-                await _mainForm.LoadNotesInPanel();
+                //await _mainForm.LoadNotesInGrid(gridView);
+                //await _mainForm.LoadNotesInPanel();
+                _mainForm.LoadContent();
             }
         }
 
