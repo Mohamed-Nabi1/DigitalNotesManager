@@ -5,6 +5,7 @@ using Domain.Entities;
 using Infrastructure.Context;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
+using System.Net.Mail;
 
 namespace DigitalNotesManager.Application.Services
 {
@@ -99,5 +100,6 @@ namespace DigitalNotesManager.Application.Services
 
             return PasswordHasher.VerifyPassword(password, user.Password);
         }
+        
     }
 }

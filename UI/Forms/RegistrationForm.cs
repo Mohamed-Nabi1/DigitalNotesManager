@@ -13,7 +13,10 @@ using DigitalNotesManager.Application.Interfaces;
 using DigitalNotesManager.Application.Services;
 using Infrastructure.Repositories;
 using UI.Forms;
-
+using System.Net.Mail;
+using Microsoft.Extensions.FileSystemGlobbing.Internal;
+using System.Text.RegularExpressions;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.ListView;
 namespace UIPresentation
 {
     public partial class RegistrationForm : Form
@@ -31,15 +34,27 @@ namespace UIPresentation
 
         private async void RegiserBtn_Click(object sender, EventArgs e)
         {
-            if(string.IsNullOrEmpty(emailTxtBox.Text)|| string.IsNullOrEmpty(passwordTxtBox.Text) ||string.IsNullOrEmpty( UserNameTxtBox.Text) )
+            string emailPattern = @"^[^@\s]+@[^@\s]+\.[^@\s]+$";
+            string usernamePattern = @"^[a-zA-Z0-9](?:[a-zA-Z0-9_]{1,18}[a-zA-Z0-9])?$";
+            if (string.IsNullOrEmpty(emailTxtBox.Text)|| string.IsNullOrEmpty(passwordTxtBox.Text) ||string.IsNullOrEmpty( UserNameTxtBox.Text) )
             {
                 validationMsgLabel.Text = "Please Complete All Required Data";
+            }
+            else if (!Regex.IsMatch(UserNameTxtBox.Text, usernamePattern))
+            {
+                validationMsgLabel.Text = "userName is invalid please sure it 3-20 characters," +"\n"+
+                    " only has letters, numbers, and underscores and no whitespace";
+            }
+            else if (!Regex.IsMatch(emailTxtBox.Text, emailPattern))
+            {
+                validationMsgLabel.Text = "email is invalid";
             }
             else
             {
                 var email = emailTxtBox.Text;
                 var password = passwordTxtBox.Text;
                 var username = UserNameTxtBox.Text;
+                
                 UserDTO userDTO = new UserDTO() { Email=email,Password=password,Username=username};
 
                 bool isRegistered = await _userService.RegisterUserAsync(userDTO);
